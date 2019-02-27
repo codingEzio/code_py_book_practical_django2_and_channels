@@ -53,3 +53,11 @@
 ### Practices
 1. **Re-deployed** ur project if you've made changes to ```settings.py```
 2. By using ```context_processors```, you would reduce lots of work to require vars in every view.
+3. Do keep the ```SECRET_KEY``` in a goddamn-safe place while go production mode!!!
+4. About *Function-* and *Class-Based* views
+    - Features
+        - One for *no hidden behavior*, *quite easy-to-understand*
+        - One for *add code to change default*, *don't have to re-impl everything*.
+    - So WHAT
+        - Both have their own merits. No clear winners apparently :)
+        - It'll be whole a lot easier **if you've writing** *automated* | *unit* **tests all the time**.
