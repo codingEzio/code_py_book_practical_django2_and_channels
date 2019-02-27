@@ -11,4 +11,10 @@
     1. ```mkdir booktime && cd booktime```
     2. ```pipenv --three install Django```
     3. ```pipenv shell```  <small>( activate env )</small>
-    4. ```django-admin startproject booktime .``` <small>( under ```booktime``` )</small>
+- Project
+    - ```django-admin startproject booktime .``` <small>( under ```booktime``` )</small>
+    - ```django-admin startapp main``` 
+        - append ```'main.apps.MainConfig'``` to ```INSTALLED_APPS``` <small>( **settings.py** )</small>
+
+### Practices
+1. **Re-deployed** ur project if you've made changes to ```settings.py```
