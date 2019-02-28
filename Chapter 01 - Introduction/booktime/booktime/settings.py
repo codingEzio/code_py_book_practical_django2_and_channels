@@ -106,6 +106,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
+if DEBUG:
+    # This would send mails to our consoles :P
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    # I'll configure this when it's needed
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.what-is-it.com"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = "who-is-it"
+    EMAIL_HOST_PASSWORD = "what-is-it"
+
+
 # Logging
 #   internal: using build-in 'logging' module
 #   doc-site: https://docs.djangoproject.com/en/2.1/topics/logging/
