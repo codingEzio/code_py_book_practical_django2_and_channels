@@ -133,6 +133,12 @@
     ...
     ```
 
+### Those do not worth taking notes
+1. A **base templates** for all the other pages.
+2. A bit of *style* for our page <small>( **Bootstrap** for now, you're free to use the others )</small>
+3. Seperated ```urlpatterns``` <small>( project | apps )</small>
+4. Decoupling the *request URLs* while doing testing <small>( ```urlpattern``` > ```name``` < ```reverse``` )</small>
+
 ### Practices <small>( order by *TIME* )</small>
 1. **Re-deployed** ur project if you've made changes to ```settings.py```
 2. By using ```context_processors```, you would reduce lots of work to require vars in every view.
@@ -155,3 +161,11 @@
 
 ### References
 - [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
+
+### *Just So You Know*
+- *Regex* ```urlpatterns``` is still being supported
+    
+    ```python
+    re_path(r"^product/(?P<id>[^/]+)/$",
+            TemplateView.as_view(template_name="home.html")),
+    ```
