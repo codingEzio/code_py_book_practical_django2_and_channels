@@ -49,6 +49,8 @@
         }
         ```
 
+----------
+
 ### Get our first page *running*
 - **Setup** outside *Django*
 
@@ -139,6 +141,50 @@
 3. Seperated ```urlpatterns``` <small>( project | apps )</small>
 4. Decoupling the *request URLs* while doing testing <small>( ```urlpattern``` > ```name``` < ```reverse``` )</small>
 
+### Restructing the *tests*
+- Like this 
+    
+    ```bash
+    # old:
+    #     PROJ/app-main/tests.py
+    
+    # new:
+    #     PROJ/app-main/tests/ 
+    #     -- __init__.py
+    #     -- test_views.py      # the original 'tests.py'
+    #     -- test_forms.py      # new test file our forms (HTML widgets)
+    ```
+
+- Controlling **verbosity** while testing
+    
+    ```bash
+    ./manage.py test -v 0    # minimal 
+    ./manage.py test -v 3    # very verbose
+    ```
+    
+- Controlling **how many tests** to run <small>( *scope* might be more appropriate )</small>
+
+    ```bash
+    # All | App | App-feature
+    
+    ./manage.py test
+    
+    ./manage.py test main
+    ./manage.py test main.tests
+    
+    ./manage.py test main.tests.test_views
+    ./manage.py test main.tests.test_views.TestPage
+    ./manage.py test main.tests.test_views.TestPage.test_about_page_works
+    ```
+
+- Additional arguments for us to use
+    - ```--failfast```
+    - ```--keepdb```
+    - For more to check official doc: [writing and running tests](https://docs.djangoproject.com/en/2.1/topics/testing/overview/)
+
+
+----------
+
 ### Practices <small>( order by *TIME* )</small>
 1. **Re-deployed** ur project if you've made changes to ```settings.py```
 2. By using ```context_processors```, you would reduce lots of work to require vars in every view.
@@ -159,9 +205,6 @@
                 - *good-to-go* -> **coding**
                 - *failure* -> **fixing**
 
-### References
-- [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
-
 ### *Just So You Know*
 - *Regex* ```urlpatterns``` is still being supported
     
@@ -169,3 +212,10 @@
     re_path(r"^product/(?P<id>[^/]+)/$",
             TemplateView.as_view(template_name="home.html")),
     ```
+
+- 
+
+----------
+
+### References
+- [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
