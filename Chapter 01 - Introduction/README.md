@@ -28,7 +28,7 @@
         createdb -E utf8 -U projbooktimeuser projbooktime
         
         # Driver
-        pipenv install psycopg2  # http://initd.org/psycopg/docs/index.html
+        pipenv install psycopg2-binary  # http://initd.org/psycopg/docs/index.html
         
         # GUI
         # I myself was using Navicat (for postgreSQL).
@@ -103,7 +103,37 @@
         - Delete strings like ```/*# sourceMappingURL .. */``` either in *JS* or *CSS* files.
         - **Un-check** one of the settings in *DevTools* which is called **Enable JavaScript source maps**.
 
-### Practices
+
+### Get our first test *passed*
+- Inside *Django*
+
+    ```python
+    """ PROJ/main/tests.py """
+    
+    class TestPage(TestCase):
+        def test_home_page_works(self):
+            response = self.client.get("/")
+    
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, "home.html")
+            self.assertContains(response, "BookTime")
+            
+
+    """ PROJ/main/templates/home.html """
+    
+    # A little modification for getting the test passed
+    #   old:  <title> Hello, Django! </title>
+    #   new:  <title> BookTime       </title>
+    ```
+
+- Outside *Django*
+
+    ```console
+    foo@bar:~$ ./manage.py test
+    ...
+    ```
+
+### Practices <small>( order by *TIME* )</small>
 1. **Re-deployed** ur project if you've made changes to ```settings.py```
 2. By using ```context_processors```, you would reduce lots of work to require vars in every view.
 3. Do keep the ```SECRET_KEY``` in a goddamn-safe place while go production mode!!!
@@ -114,6 +144,14 @@
     - So WHAT
         - Both have their own merits. No clear winners apparently :)
         - It'll be whole a lot easier **if you've writing** *automated* | *unit* **tests all the time**.
+5. Recommended activity loop: 
+    - writing **code** 
+    - writing **tests** && running **tests**
+        - *good-to-go* -> **coding**
+        - *failure* -> **fixing**
+            - running **tests**
+                - *good-to-go* -> **coding**
+                - *failure* -> **fixing**
 
 ### References
 - [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
