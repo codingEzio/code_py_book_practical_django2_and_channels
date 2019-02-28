@@ -182,6 +182,13 @@
     - ```--keepdb```
     - For more to check official doc: [writing and running tests](https://docs.djangoproject.com/en/2.1/topics/testing/overview/)
 
+### The *Contact Us* page
+- Five aspects
+    1. *views*, *forms*, *templates*
+    2. *urls*, *tests*
+- So..
+    - Since the code|structure is **quite easy to understand**,
+    - I'll just omit the explanation for now <small>( I **might** add it in the future )</small>.
 
 ----------
 
