@@ -3,10 +3,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'nl*^o7w$go+uia-tyxfok7om6$12k(=ucrt3j+-2sfl)hmbbr2'
 
@@ -14,8 +10,6 @@ SECRET_KEY = 'nl*^o7w$go+uia-tyxfok7om6$12k(=ucrt3j+-2sfl)hmbbr2'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,6 +36,8 @@ ROOT_URLCONF = 'booktime.urls'
 
 TEMPLATES = [
     {
+        # This default configuration will try to
+        # find 'templates' folders in each respective apps. (aka. APP_DIRS)
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
@@ -59,9 +55,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'booktime.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -72,10 +65,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,16 +88,11 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_L10N = True
-
 USE_TZ = True
 
+USE_I18N = True
+USE_L10N = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 # While in production mode, the 'static' files
 #   should be served by a efficient HTTP server like Nginx.
