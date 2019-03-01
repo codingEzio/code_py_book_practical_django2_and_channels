@@ -314,7 +314,29 @@
             self.assertEqual(len(models.Product.objects.active()), 2)
     ```
 
+----------
 
+### Lemme enter the *admin* backend!
+- **Setup** inside *Django*
+    
+    ```python
+    """ PROJECT/main/tests/test_models.py """
+    
+    from . import models
+    
+    admin.site.register(models.Product)
+    admin.site.register(models.ProductTag)
+    admin.site.register(models.ProductImage)
+    ```
+
+- **Setup** outside *Django*
+    
+    ```bash
+    ./manage.py createsuperuser
+    
+    # Do add some data after u've created the user!
+    open http://127.0.0.1:8000/admin/main/
+    ```
 
 ----------
 
