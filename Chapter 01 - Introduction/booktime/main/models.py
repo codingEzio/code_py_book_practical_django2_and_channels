@@ -18,10 +18,9 @@ class ProductImage(models.Model):
         Well, install it by `pipenv install Pillow` :)
     """
 
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE
-    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="product-images")
+    thumbnail = models.ImageField(upload_to="product-thumbnails", null=True)
 
 
 class ProductTag(models.Model):
