@@ -192,6 +192,44 @@
 
 ----------
 
+### Get our first *models* migrated
+- **Setup** inside *Django*
+
+    ```python
+    """ PROJ/main/models.py """
+    
+    # Base | BaseAttr | BaseAdvanced
+    
+    class Product(models.Model):
+        pass
+    
+    class ProductImage(models.Model):
+        pass
+        
+    class ProductTag(models.Model):
+        pass
+    ```
+
+- **Setup** outside *Django*
+    
+    ```bash
+    # Do make migrations for each model.
+    # e.g.
+    #   1.1 write 'Product' 
+    #   1.2 make migrations
+    #   2.1 write 'ProductImage'    # Run `pipenv install Pillow`
+    #   2.2 make migrations         # before you're migrating the fields!
+    #   3.1 ...
+    
+    # Migrate
+    ./manage.py makemigrations      # You'll run it 3 times in total 
+    
+    # Migrate, for real
+    ./manage.py migrate             # Run this after you've written & makemig (3 times)
+    ```  
+    
+----------
+
 ### Practices <small>( order by *TIME* )</small>
 1. **Re-deployed** ur project if you've made changes to ```settings.py```
 2. By using ```context_processors```, you would reduce lots of work to require vars in every view.
