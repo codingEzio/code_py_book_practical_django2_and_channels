@@ -78,7 +78,7 @@
 - **Setup** inside *Django*
 
     ```python
-    """ PROJ/booktime/urls.py """
+    """ PROJECT/booktime/urls.py """
     
     from django.views.generic import TemplateView
     
@@ -87,7 +87,7 @@
         path('', TemplateView.as_view(template_name="home.html"))
 ]
 
-    """ PROJ/main/templates/home.html (examples) """
+    """ PROJECT/main/templates/home.html (examples) """
     
     {% load static %}
     
@@ -110,7 +110,7 @@
 - Inside *Django*
 
     ```python
-    """ PROJ/main/tests.py """
+    """ PROJECT/main/tests.py """
     
     class TestPage(TestCase):
         def test_home_page_works(self):
@@ -121,7 +121,7 @@
             self.assertContains(response, "BookTime")
             
 
-    """ PROJ/main/templates/home.html """
+    """ PROJECT/main/templates/home.html """
     
     # A little modification for getting the test passed
     #   old:  <title> Hello, Django! </title>
@@ -146,10 +146,10 @@
     
     ```bash
     # old:
-    #     PROJ/app-main/tests.py
+    #     PROJECT/app-main/tests.py
     
     # new:
-    #     PROJ/app-main/tests/ 
+    #     PROJECT/app-main/tests/ 
     #     -- __init__.py
     #     -- test_views.py      # the original 'tests.py'
     #     -- test_forms.py      # new test file our forms (HTML widgets)
@@ -192,11 +192,11 @@
 
 ----------
 
-### Get our first *models* migrated
+### Get our first <small>( 3 )</small> *models* migrated
 - **Setup** inside *Django*
 
     ```python
-    """ PROJ/main/models.py """
+    """ PROJECT/main/models.py """
     
     # Base | BaseAttr | BaseAdvanced
     
@@ -227,6 +227,49 @@
     # Migrate, for real
     ./manage.py migrate             # Run this after you've written & makemig (3 times)
     ```  
+ 
+### Making *thumbnails*
+- **Setup** inside *Django*
+
+    ```python
+    """ PROJECT/main/models.py :: `ProductImage` """
+    
+    thumbnail = models.ImageField(
+        upload_to="product-thumbnails", null=True
+    )
+    
+    
+    """ PROJECT/main/signals.py """
+    
+    # 1. get product instance
+    # 2. using 'PIL' to manipulate the images
+    # 3. xx.save()
+    
+    
+    """ PROJECT/main/apps.py :: `MainConfig` """
+    
+    class MainConfig(AppConfig):
+        name = "main"
+    
+        # This method make sure the `signals.py` 
+        # is initialized when the Django app is launched
+    
+        def ready(self):
+            from . import signals
+
+
+    """ PROJECT/booktime/settings.py """
+    
+    # Do make sure you've got these 2 lines
+    
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
+    ```
+
+- **Setup** outside *Django*
+    
+- Things I havn't elaborate
+    1. Tests for ```signals.py``` <small>( whether the *conv-thumbnail* works or not )</small>.
     
 ----------
 
@@ -264,3 +307,4 @@
 
 ### References
 - [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
+- [Django Signals - an Extremely Simplified Explanation for Beginners](https://coderwall.com/p/ktdb3g/django-signals-an-extremely-simplified-explanation-for-beginners)
