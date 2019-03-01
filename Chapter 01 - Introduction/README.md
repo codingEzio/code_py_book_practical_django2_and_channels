@@ -280,6 +280,42 @@
     # -- WHAT   I omitted the code since it's not that complicated.
     ```
     
+### *QuerySets* & *Manager*
+- I'll complete the former one later on :D
+- Adding *Manager* to our model
+    
+    ```python
+    class ActiveManager(models.Manager):
+        def active(self):
+            return self.filter(active=True)
+
+    class Product(models.Model):
+        # ...
+        objects = ActiveManager()
+    ```
+
+- Adding *Manager* tests 
+
+    ```python
+    """ PROJECT/main/tests/test_models.py """
+
+    from .. import ..
+    from .. import ..
+
+    class TestModel(TestCase):
+        def test_active_manager_works(self):
+            """ It's quite simply I'd say ..
+            """
+            
+            models.Product.objects.create(.. , )
+            models.Product.objects.create(.. , )
+            models.Product.objects.create(.. , active=False)
+            
+            self.assertEqual(len(models.Product.objects.active()), 2)
+    ```
+
+
+
 ----------
 
 ### Practices <small>( order by *TIME* )</small>
