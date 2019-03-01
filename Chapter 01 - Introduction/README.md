@@ -268,8 +268,17 @@
 
 - **Setup** outside *Django*
     
-- Things I havn't elaborate
-    1. Tests for ```signals.py``` <small>( whether the *conv-thumbnail* works or not )</small>.
+- Tests for ```signals.py``` <small>( whether the *conv-thumbnail* works or not )</small>
+
+    ```python
+    # Preparation
+    #   1. Make sure you've got the sample pics  ( ../Apress/practical-django2-and-channels2 )
+    #   2. Copy the pics to the right place      ( under '../main/fixtures' )
+    
+    # Writing tests
+    # -- WHERE  PROJECT/main/tests/test_signals.py
+    # -- WHAT   I omitted the code since it's not that complicated.
+    ```
     
 ----------
 
