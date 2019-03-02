@@ -434,5 +434,13 @@
 ----------
 
 ### References
-- [stackoverflow :: Offiline static files :: Use 'min.X' not 'map.X'](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
-- [Django Signals - an Extremely Simplified Explanation for Beginners](https://coderwall.com/p/ktdb3g/django-signals-an-extremely-simplified-explanation-for-beginners)
+- ```Q``` and ```F```
+    - [Advanced queries with ```F``` objects](https://riptutorial.com/django/example/20595/advanced-queries-with-f-objects)
+- querySet and Manager
+    - [When should I use a custom Manager versus a custom QuerySet in Django?](https://stackoverflow.com/questions/29798125/when-should-i-use-a-custom-manager-versus-a-custom-queryset-in-django)
+    - [django model manager or django queryset](https://stackoverflow.com/questions/45957142/django-model-manager-or-django-queryset)
+    - [Django Model vs. Manager](https://stackoverflow.com/questions/17320333/django-model-vs-manager)
+- Signals
+    - [Django Signals - an Extremely Simplified Explanation for Beginners](https://coderwall.com/p/ktdb3g/django-signals-an-extremely-simplified-explanation-for-beginners)
+- Static files
+    - [Bootstrap trying to load map file. How to disable it? ](https://stackoverflow.com/questions/21773376/bootstrap-trying-to-load-map-file-how-to-disable-it-do-i-need-to-do-it)
