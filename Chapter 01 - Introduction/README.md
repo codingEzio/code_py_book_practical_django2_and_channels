@@ -281,38 +281,99 @@
     ```
     
 ### *QuerySets* & *Manager*
-- I'll complete the former one later on :D
-- Adding *Manager* to our model
+- A brief intro for *manager*
+    - Basics
+        1. **Every** model have at least one of its *manager* <small>( return all objs without filters )</small>.
+        2. You could **override** OR **add** new ```Manager```s, you might wanna ***do both***.
+            
+            ```python
+            Product.objects.all()           # override ( like examples below )
+            Product.active_objects.all()    # just like "override" ( but with a different name! )
+            ```
+- A brief intro for *queryset*
+    - Well.. The *manager* IS built on *querysets* <small>( bunch of *cond*s )</small>.
+    - Query examples :: *Basic*
+
+        ```python
+        # The 'FROM' part was omitted for the sake of simplicity.
+
+        # SELECT * 
+        Product.objects.all()
+
+        # SELECT * 
+        # WHERE  price { =, >, >= } 12.00
+        Product.objects.all(price=Decimal("12.00"))
+        Product.objects.all(price__gt=Decimal("12.00"))
+        Product.objects.all(price__gte=Decimal("12.00"))
+
+        # SELECT * 
+        # WHERE  name WHERE ILIKE ..  (or `LCASE(..) LIKE ..`)
+        Product.objects.all(name__contains="iMac")
+        Product.objects.all(name__icontains="imac")
+        
+        Product.objects.all(name__icontains="iMac",
+                            price__gte=Decimal("1500"))    # Dollar
+        ```
     
-    ```python
-    class ActiveManager(models.Manager):
-        def active(self):
-            return self.filter(active=True)
+    - Query examples :: *Cross-tables*
 
-    class Product(models.Model):
-        # ...
-        objects = ActiveManager()
-    ```
+        ```python
+        Product.objects.filter(productbrand__name="apple")
+        Product.objects.filter(producttag__name="computer")
+        ```
+    
+    - Query examples :: *More complexed* <small>( by using ```Q``` and ```F``` )</small>
 
-- Adding *Manager* tests 
+        ```python
+        # The 'MODEL_NAME.MANAGER' was omitted for the sake of simplicity.
 
-    ```python
-    """ PROJECT/main/tests/test_models.py """
+        filter(
+            Q(name__istartswith="Macbook") & Q(releaseyear__gte=2016),
+            Q(price__gt=Decimal("1200"))   | Q(price__gt=Decimal("1500")),
+            ~Q(releaseyear=2019),
+        )
 
-    from .. import ..
-    from .. import ..
+        filter(
+            id__gt=F("id" * 10)    # e.g. ID 0001~0025 => 10, 20 
+        )
+        ```
 
-    class TestModel(TestCase):
-        def test_active_manager_works(self):
-            """ It's quite simply I'd say ..
-            """
-            
-            models.Product.objects.create(.. , )
-            models.Product.objects.create(.. , )
-            models.Product.objects.create(.. , active=False)
-            
-            self.assertEqual(len(models.Product.objects.active()), 2)
-    ```
+- A summary for both
+    - [ ] Yet to be finished
+- Related code examples
+
+    - Adding *Manager* to our model
+
+        ```python
+        class ActiveManager(models.Manager):
+            def active(self):
+                return self.filter(active=True)
+
+        class Product(models.Model):
+            # .. 
+            # ..
+            objects = ActiveManager()
+        ```
+
+    - Adding *Manager* tests 
+
+        ```python
+        """ PROJECT/main/tests/test_models.py """
+
+        from .. import ..
+        from .. import ..
+
+        class TestModel(TestCase):
+            def test_active_manager_works(self):
+                """ It's quite simply I'd say ..
+                """
+
+                models.Product.objects.create(.. , )
+                models.Product.objects.create(.. , )
+                models.Product.objects.create(.. , active=False)
+
+                self.assertEqual(len(models.Product.objects.active()), 2)
+        ```
 
 ----------
 
