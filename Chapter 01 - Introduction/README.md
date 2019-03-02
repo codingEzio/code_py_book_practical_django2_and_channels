@@ -338,8 +338,6 @@
         )
         ```
 
-- A summary for both
-    - [ ] Yet to be finished
 - Related code examples
 
     - Adding *Manager* to our model
@@ -420,6 +418,22 @@
             - running **tests**
                 - *good-to-go* -> **coding**
                 - *failure* -> **fixing**
+6. Avoid making migrations that are not **reversible**.
+    - Just in case you wanna *applying* or *reverting* changes
+        
+        ```bash
+        ./manage.py migrate main 0003_producttag    # current           => elder one
+        ./manage.py migrate main                    # current (changed) => newest changes
+        ```
+
+    - I havn't met *that complicated* situations, 
+        - so I'll just skipping this part to some *"down-to-earth"* stuff.
+
+----------
+
+### What do I missed
+- Details for **merging** database *migrations*.
+- Details for **data** *migrations* <small>( I've typed the code, but not fully understanding it )</small>.
 
 ### *Just So You Know*
 - *Regex* ```urlpatterns``` is still being supported
@@ -429,11 +443,18 @@
             TemplateView.as_view(template_name="home.html")),
     ```
 
-- 
+- List *migrations* that have been applied or not
+
+    ```bash
+    ./manage.py showmigrations [APP_NAME]    # or without param
+    ```
 
 ----------
 
 ### References
+- NOTE
+    1. This list is *ordered* by **time** & **DESC**.
+    2. Some links were saved in my Chrome bookmarks, for *some* reasons.
 - ```Q``` and ```F```
     - [Advanced queries with ```F``` objects](https://riptutorial.com/django/example/20595/advanced-queries-with-f-objects)
 - querySet and Manager
