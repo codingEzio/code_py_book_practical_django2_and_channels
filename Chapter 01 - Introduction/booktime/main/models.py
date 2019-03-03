@@ -16,6 +16,9 @@ class Product(models.Model):
     date_updated = models.DateTimeField(auto_now=True)  # update each time
 
     objects = ActiveManager()
+    
+    def __str__(self):
+        return self.name
 
 
 class ProductImage(models.Model):
