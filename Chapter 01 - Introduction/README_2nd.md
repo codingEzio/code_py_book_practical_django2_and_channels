@@ -126,4 +126,32 @@
     #                 :: autocomplete_fields = ("tags",)
     ```
     
-### 
+### *New* management commands
+- WHAT
+    - ```./manage.py OUR_OWN_COMMAND```
+- Getting started
+    - Outside of *Django*
+
+        ```bash
+        # ---- under 'PROJECT/main/' ---- #
+
+        mkdir management
+        touch management/__init__.py 
+
+        mkdir management/commands/
+        touch management/commands/__init__.py       
+        touch management/commands/import_data.py    # call by `./manage.py import_data`
+
+        # Your structure should like this
+        # -- management/
+        # -- management/__init__.py
+        # -- management/commands/
+        # -- management/commands/__init__.py    
+        # -- management/commands/import_data.py 
+        ```
+    
+    - "Inside" of *Django*
+
+        ```python
+
+        ```
