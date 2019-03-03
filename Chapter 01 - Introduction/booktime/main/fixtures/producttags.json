@@ -1,0 +1,20 @@
+[
+{
+    "model": "main.producttag",
+    "fields": {
+        "name": "Narrative",
+        "slug": "narrative",
+        "description": "Great",
+        "active": true
+    }
+},
+{
+    "model": "main.producttag",
+    "fields": {
+        "name": "Shooter",
+        "slug": "shooter",
+        "description": "Booo",
+        "active": true
+    }
+}
+]
