@@ -25,4 +25,20 @@
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     ```
     
-### 
+### Management commands
+- *Basics*
+
+    ```bash
+    # For the sake of simplicity, 
+    # some cmds I won't use right now won't be mentioned here.
+
+    ./manage.py             # display all the options you have
+
+    ./manage.py check       # check if everything's fine
+    
+    ./manage.py shell       # specify by `--interface ipython` (or else)
+    ./manage.py dbshell     # open db-related engines (e.g. psql)
+
+    ./manage.py makemessages | compilemessages
+    ./manage.py loaddata     | dumpdata
+    ```
