@@ -153,5 +153,17 @@
     - "Inside" of *Django*
 
         ```python
+        # ---- under 'PROJECT/main/management/commands/import_data.py' ---- #
+        
+        # I'll just put the structures here,
+        # since the full implementation is quite long :P
 
+        """ 
+        Okay, how?
+            1. Import the packages we need
+            2. Add command-line arguments  
+            3. Load data from CSV|Image files
+            4. Create objects by the loaded data
+            5. Display some progres info (`stdout.write`)
+        """
         ```
