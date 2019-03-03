@@ -10,6 +10,7 @@ django = "*"
 pylama = "*"
 psycopg2-binary = "*"
 pillow = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.7"
