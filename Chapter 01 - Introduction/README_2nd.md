@@ -42,3 +42,88 @@
     ./manage.py makemessages | compilemessages
     ./manage.py loaddata     | dumpdata
     ```
+
+### Serialization
+- Terms
+    - *Serialization* : **DB tables** to **File**.
+    - *DeSerialization* : **File** to **DB tables**.
+- *Dump* & *Load*
+    - Issues
+
+        ```bash
+        ./manage.py dumpdata --indent 4 main.ProductTag
+
+        # There's an issue here, though,
+        # that is some internal IDs lives in the data (e.g. `"products": [4]`)
+        ```
+
+    - Inside *Django*
+
+        ```python
+        """ >>> PROJECT/main/models.py <<< """
+
+        # Part One
+        # -- Place  the `ProductTag` before the `Product` model
+        # -- Delete the `.. ManyToManyField(..)` in the `ProductTag`
+        # -- Add    the `tags = .. ManyToManyField(ProductTag, ..)` to `Product`
+
+        # Part Two 
+        # -- Add two methods to `ProductTag` model
+
+        def __str__(self):
+            return self.name 
+
+        def natural_key(self):
+            return (self.slug,)
+            
+        # Part Three
+        # -- Add one method to `ProductImage` model
+        
+        def __str__(self):
+            return self.product.name
+        ```
+
+    - Outside *Django*
+        - WHAT
+            - This is the **most** ***goddamn*** import step!!!!
+            - Do remember to **make & mig** the DB models after you've made changes to it!
+                - Oh, actions like adding a ```__str__()``` does NOT require a *migration* :)
+                - It's fine by simply re-running the server.
+        - HOW
+            
+            ```bash
+            ./manage.py makemigrations main
+            ./manage.py migrate
+            ```
+
+    - What now
+
+        ```bash
+        # Now you can run it without hidden states
+        # and .. well, the changes were ACTUALLY made to databases!
+        
+        ./manage.py dumpdata \
+            --indent 4 main.ProductTag
+
+        ./manage.py dumpdata \
+            --indent 4 main.ProductTag \
+            --natural-primary \
+            > main/fixtures/producttags.json
+        ```
+
+- What's more
+
+    ```python
+    """ >>> PROJECT/main/admin.py <<< """
+
+    # Since the changes we've made also affected other code
+    # we need to modify the 'admin.py' to accommodate it :D
+
+    # ProductTagAdmin :: REMOVE 
+    #                 :: autocomplete_fields = ("products",)
+    
+    # ProductAdmin    :: ADD 
+    #                 :: autocomplete_fields = ("tags",)
+    ```
+    
+### 
