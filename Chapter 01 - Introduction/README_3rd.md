@@ -1,5 +1,5 @@
 
-### Display the *product list*
+### Page :: *Product List*
 - What needs to be written
     1. *views*
 
@@ -87,3 +87,55 @@
         self.client.get(reverse(     "contact_us"))    # OLD
         self.client.get(reverse("main:contact_us"))    # NEW
         ```
+
+
+### Page :: *Single Product*
+- What needs to be written
+    1. *templates*
+
+        ```html
+        <!-- 
+        Ah, the template itself is quite simple.
+        Just with more "template filters" this time.
+
+        Something like this
+            object.description|linebreaks
+            object.in_stock|yesno|capfirst
+            object.date_updated|date:"F Y"
+            object.tags.all|join:","|default:"No tags availabel :("
+        -->
+
+        <!-- 
+        Oh, also the book got some errors (or not)
+            {% url 'add_to_basket' %}?product_id={{ object.id }}
+        
+        Since we (and the book) havn't impl it yet,
+        you need to change the value of `href` to "#" (at least temporarily).
+        -->
+        <a href="#">
+		    Add to basket
+	    </a>
+        ```
+    
+    2. *urls*
+
+        ```python
+        from django.views.generic.detail import DetailView
+        from main import models
+
+        path(
+            "product/<slug:slug>/", 
+            DetailView.as_view(model=models.Product),   # How convinient!
+            name="product"                              # used in templates
+        )
+        ```
+
+- Testing <small>( *usage* as well )</small>
+    
+    ```bash
+    # Ah, the name could be different from yours, though.
+    
+    open http://localhost:8000/product/siddhartha/
+    open http://localhost:8000/product/backgammon-for-dummies/
+    open http://localhost:8000/product/the-cathedral-and-the-bazaar/
+    ```
