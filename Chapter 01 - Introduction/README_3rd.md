@@ -65,3 +65,25 @@
         open http://localhost:8000/products/all/
         open http://localhost:8000/products/open-source/
         ```
+    
+    - Tests
+
+        ```python    
+        # PROJECT/main/tests :: TestPage
+        # -- test_products_page_returns_active
+        # -- test_products_page_filters_by_tags_and_active
+
+        # Nothing fancy, just these steps:
+        # 1. create objects
+        # 2. `client.get` the page (like a real user)
+        # 3. do asserting (e.g. `assertEqual`, `assertContains`)
+        ```
+    
+- Oh, one more thing!
+    - Since I've added the ```app_name = 'main'``` to ```urls.py```
+    - There's some changes you need to made (in tests)
+
+        ```python
+        self.client.get(reverse(     "contact_us"))    # OLD
+        self.client.get(reverse("main:contact_us"))    # NEW
+        ```
