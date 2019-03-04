@@ -1,7 +1,9 @@
+from decimal import Decimal
+
 from django.test import TestCase
 from django.urls import reverse
 
-from main import forms
+from main import forms, models
 
 
 class TestPage(TestCase):
@@ -13,23 +15,23 @@ class TestPage(TestCase):
         `assertContains`    Does the page contains strings like 'BookTime'?
         `reverse("home")`   The "home" is the `name` attr in the `urlpatterns`.
         """
-
-        response = self.client.get(reverse("home"))
-
+        
+        response = self.client.get(reverse("main:home"))
+        
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home.html")
         self.assertContains(response, "BookTime")
-
+    
     def test_about_page_works(self):
-        response = self.client.get(reverse("about_us"))
-
+        response = self.client.get(reverse("main:about_us"))
+        
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "about_us.html")
         self.assertContains(response, "BookTime")
-
+    
     def test_contact_us_page_works(self):
-        response = self.client.get(reverse("contact_us"))
-
+        response = self.client.get(reverse("main:contact_us"))
+        
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "contact_form.html")
         self.assertContains(response, "BookTime")
