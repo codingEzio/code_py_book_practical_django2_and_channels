@@ -23,9 +23,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """ The logic code will be put in here.
+        
+        How to use this management command?
+        >> ./manage.py import_data YOUR_CSV_FILE_PATH YOUR_IMAGES_FILE_PATH
         """
 
-        self.stdout.write("Importing products ..")
+        self.stdout.write("Importing products")
 
         # Load the data
         c = Counter()
@@ -40,7 +43,7 @@ class Command(BaseCommand):
 
             product.description = row["description"]
             product.slug = slugify(row["name"])
-            
+
             # Parse multiple tags if there is
             # that means the "delim" depends on the data (may not '|')
             for import_tag in row["tags"].split("|"):
@@ -77,15 +80,15 @@ class Command(BaseCommand):
                 c["products_created"] += 1
 
         self.stdout.write(
-            "Process processed=%d (created=%d)"
+            "Products processed=%d (created=%d)"
             % (c["products"], c["products_created"])
         )
 
-        self.stdout.write(
-            "Tags processed=%d (created=%d)"
-            % (c["tags"], c["tags_created"])
-        )
+        # self.stdout.write(
+        #     "Tags processed=%d (created=%d)"
+        #     % (c["tags"], c["tags_created"])
+        # )
 
         self.stdout.write(
-            "Images processed=%d (created=%d)" % (c["images"])
+            "Images processed=%d" % (c["images"])
         )
