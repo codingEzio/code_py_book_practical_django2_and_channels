@@ -41,6 +41,10 @@
 
     ./manage.py makemessages | compilemessages
     ./manage.py loaddata     | dumpdata
+
+    ./manage.py flush       # Ah! This one is my FAVORIATE
+                            # It simply reverts the whole DB to its original state
+                            # That means you don't need to "del-and-create" manaualy!
     ```
 
 ### Serialization
