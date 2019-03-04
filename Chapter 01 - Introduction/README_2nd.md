@@ -128,7 +128,7 @@
     
 ### *New* management commands
 - WHAT
-    - ```./manage.py OUR_OWN_COMMAND```
+    - ```./manage.py OUR_OWN_COMMAND PARAM_1 PARAM_2```
 - Getting started
     - Outside of *Django*
 
@@ -167,3 +167,35 @@
             5. Display some progres info (`stdout.write`)
         """
         ```
+
+- Let's *test* it
+    - Preparation
+        - Make sure you've downloaded the samples <small>( [Official Repo](https://github.com/Apress/practical-django2-and-channels2) )</small>.
+        - Then copy the files needed to ```PROJECT/main/fixtures/```
+            1. ```product-sample.csv```
+            2. ```product-sampleimages/``` <small>( three pics inside )</small>
+    - Usage
+        
+        ```bash
+        ./manage.py import_data YOUR_CSV_FILE_PATH YOUR_IMAGES_FILE_PATH
+        ```
+
+    - The tests
+
+        ```python
+        """ >>> PROJECT/main/tests/test_import.py <<< """
+
+        # Nothing fancy.
+        
+        # Just so you know, I commented a few lines 
+        # to get the tests passed (i.e. the "tag" part).
+
+        # What changes I made, EXACTLY?
+        # -- the COMMAND 
+        # -- the test file 
+
+        # I don't really changed the functionality
+        # I just commended lines like 'stdout.write'.
+        ```
+        
+### 
