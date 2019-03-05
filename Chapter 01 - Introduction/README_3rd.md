@@ -257,6 +257,49 @@
 
 
 ### Page :: *Registration*
+- What needs to be written
+    1. *forms*
+
+        ```python
+        # We mainly do these two things
+        # -- Override  ( general purposes like "name of the model" etc. )
+        # -- Override  ( specifically, the "name+pwd  =>  mail+pwd"     )
+        
+        # Go check the code (detailed comments inside).
+        ```
+
+    2. *views*
+
+        ```python
+        # Still, the code is quite simple.
+        # So I'll just show the structure here :D
+
+        # The Structure (simplified)
+        #   1. return to WHERE after you've signed in
+        #   2. clean the registration form 
+        #   3. authenticate (literally & technically)
+        #   4. send email (registration link & success info)
+        ```
+
+    3. *templates*
+
+        ```html
+        <!-- 
+        Ah, quite simple.
+            1. Three inputs for {username, password-1, password-2}
+            2. One button for "submit"
+        -->
+        ```
+
+    4. *urls*
+
+        ```python
+        path(
+            "signup/",
+            ..  # view func
+            ..  # name used in templates
+        )
+        ```
 
 -----------
 
@@ -264,3 +307,5 @@
 - ```UserAdmin```'s **```add_fieldsets```**
     - [What does UserAdmin's add_fieldsets for? - StackOverflow](https://stackoverflow.com/questions/50436596/django-useradmins-add-fieldsets)
     - [Customizing authentication in Django (Docs|Code)](https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#custom-users-and-django-contrib-admin)
+- ```django.contrib.auth.forms.UsernameField```
+    - [In Django 1.8, what does "USERNAME_FIELD" mean by auth system? - StackOverflow](https://stackoverflow.com/questions/44028143/in-django-1-8-what-does-username-field-mean-by-authentication-system)
