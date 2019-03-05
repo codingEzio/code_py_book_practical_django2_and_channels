@@ -301,6 +301,43 @@
         )
         ```
 
+- Testing
+    - Usage
+
+        ```bash
+        # Step 1
+        open http://localhost:8000/signup/
+
+        # Step 2
+        #   Check terminal messages (should be two, duh).
+
+        # Step 3
+        #   Check admin backend
+        open http://localhost:8000/admin/main/user/
+        ```
+    
+    - Tests
+
+        ```python    
+        # PROJECT/main/tests/test_forms :: TestForm
+        # -- test_valid_signup_form_sends_email
+
+        # Expected
+        #   There shoudld be a `"Welcome to BookTime"` message
+        # How exactly
+        #   Send mail with mocked data
+        #   Something like `assertEqual(.. "Welcome to BookTime")`
+        
+
+        # PROJECT/main/tests/test_views :: TestPage
+        # -- test_user_signup_page_loads_correctly
+        # -- test_user_signup_page_submission_works
+
+        # WHAT TO TEST
+        #   Load page
+        #   Post & Authenticate
+        ```
+
 -----------
 
 ### References 
