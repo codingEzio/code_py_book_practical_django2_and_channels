@@ -139,3 +139,128 @@
     open http://localhost:8000/product/backgammon-for-dummies/
     open http://localhost:8000/product/the-cathedral-and-the-bazaar/
     ```
+
+
+-------------
+
+### Customizing ```User``` *model*
+- What needs to be <small>(re)</small>written
+    1. *models*
+
+        ```python
+        # For the sake of simplicity, I'll omit most of the details.
+
+        class UserManager(BaseUserManager):
+            def _create_user(..):
+                """ This is a helper method for the other methods
+                """
+
+                ..
+                .. self.model  (email=email, ..)
+                .. set_password(password)
+                ..
+
+            def create_user     (..):
+                ..
+                .. setdefault("is_staff", False)
+                .. setdefault("is_admin", False)
+                ..
+
+            def create_superuser(..):
+                .. setdefault("is_staff", False)
+                .. setdefault("is_superuser", True)
+                ..
+
+
+        class User(AbstractUser):    
+            username = None
+            email    = models.EmailField(..)
+
+            USERNAME_FIELD  = ..    # mostly, `CharField` or `EmailField` (or both?!)
+            REQUIRED_FIELDS = ..    # specifically, "required" when creating superuser
+
+            objects = UserManager() # using the "modified" manager :P
+        ```
+    
+    2. *admin*
+        ```python
+        from django.contrib.auth.admin import UserAdmin as OrigUserAdmin
+        
+        @admin.register(models.User)
+        class UserAdmin(OrigUserAdmin):
+            """
+            It's no different in comparing with the other `field`s in other models.
+
+            What does `fieldsets` (here) for?
+                =>  Define the fields that'll be displayed on the 'create user' page.
+            What does `add_fieldsets` for?
+                =>  Define the fields that'll be displayed on the 'new user' page.
+            """
+
+            fieldsets       = ( .. )
+            add_fieldsets   = ( .. )
+
+            list_display    = ( .. )
+            search_fields   = ( .. )
+
+            ordering        = ( .. )
+        ```
+    3. *settings*
+
+        ```python
+        # append this line
+        AUTH_USER_MODEL = "main.user"
+        ```
+
+- What needs to be *done* after the steps above
+    1. *migrations* & *DB tables*
+
+        ```bash
+        # ----- Migrations -----
+
+        rm  -fv main/migrations/000*
+        rm -rfv main/migrations/__pycache__/
+
+
+        # ----- PostgreSQL -----
+        
+        psql
+
+        # Core cmd
+            DROP   DATABASE projbooktime;
+            CREATE DATABASE projbooktime;
+
+        # Meta cmd
+            \l      # check DB list
+            \q      # exit cli
+        ```
+
+    2. *migrations* 
+
+        ```bash
+        ./manage.py makemigrations
+        ./manage.py migrate
+
+        ./manage.py createsuperuser     # It'd be 'email' instead of 'username'
+        ```
+
+- What now?
+
+    ```bash
+    # The default 'username plus password' 
+    # now changed to 'email addr plus password' (duh).
+    open http://localhost:8000/admin/login/?next=/admin/
+    ```
+
+
+-------------
+
+
+### Page :: *Registration*
+
+-----------
+
+### References 
+- ```UserAdmin```'s **```add_fieldsets```**
+    - [What does UserAdmin's add_fieldsets for? - StackOverflow](https://stackoverflow.com/questions/50436596/django-useradmins-add-fieldsets)
+    - [Customizing authentication in Django (Docs|Code)](https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#custom-users-and-django-contrib-admin)
