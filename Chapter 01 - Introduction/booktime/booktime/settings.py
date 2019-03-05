@@ -24,7 +24,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',     # user-related
+    'django.contrib.sessions.middleware.SessionMiddleware',  # user-related
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # user-related
@@ -54,7 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'booktime.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -81,7 +80,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -92,7 +90,6 @@ USE_TZ = True
 
 USE_I18N = True
 USE_L10N = True
-
 
 # While in production mode, the 'static' files
 #   should be served by a efficient HTTP server like Nginx.
@@ -105,7 +102,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
 if DEBUG:
     # This would send mails to our consoles :P
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -117,7 +113,6 @@ else:
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = "who-is-it"
     EMAIL_HOST_PASSWORD = "what-is-it"
-
 
 # Logging
 #   internal: using build-in 'logging' module
@@ -152,3 +147,6 @@ LOGGING = {
         },
     },
 }
+
+# Customizing 'User' model
+AUTH_USER_MODEL = "main.user"

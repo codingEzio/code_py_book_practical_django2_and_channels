@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+
 from . import models
 
 
@@ -28,9 +30,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ("active", "in_stock", "date_updated")
     list_editable = ("in_stock",)
     search_fields = ("name",)
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = { "slug": ("name",) }
 
-    autocomplete_fields = ("tags", )
+    autocomplete_fields = ("tags",)
 
 
 admin.site.register(models.Product, ProductAdmin)
@@ -47,7 +49,7 @@ class ProductTagAdmin(admin.ModelAdmin):
     list_display = ("name", "slug")
     list_filter = ("active",)
     search_fields = ("name",)
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = { "slug": ("name",) }
 
     # autocomplete_fields = ("products",)
 
@@ -83,3 +85,93 @@ class ProductImageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.ProductImage, ProductImageAdmin)
+
+
+@admin.register(models.User)
+class UserAdmin(DjangoUserAdmin):
+    """
+    Q & A
+        What does `fieldsets` (here) for?
+        =>  Define the fields that'll be displayed on the 'create user' page.
+
+        What does `add_fieldsets` for?
+        =>  Define the fields that'll be displayed on the 'new user' page.
+
+    Quote
+        Those two tuples specify what fields to present in the “change model” page
+        and in the “add model” page, along with the names of the page sections.
+
+        If these were not present, for any other model,
+        Django would make every field changeable. The built-in DjangoUserAdmin, however,
+        introduces some customizations to the default behavior that need to be undone.
+    """
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": \
+                    (
+                        "email",
+                        "password"
+                    )
+            }
+        ),
+        (
+            "Personal info",
+            {
+                "fields": \
+                    (
+                        "first_name", "last_name"
+                    )
+            },
+        ),
+        (
+            "Permissions",
+            {
+                "fields": \
+                    (
+                        "is_active",
+                        "is_staff",
+                        "is_superuser",
+                        "groups",
+                        "user_permissions",
+                    )
+            },
+        ),
+        (
+            "Important dates",
+            {
+                "fields": \
+                    (
+                        "last_login",
+                        "date_joined",
+                    )
+            },
+        ),
+    )
+
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": ("email", "password1", "password2"),
+            },
+        ),
+    )
+
+    list_display = (
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+    )
+
+    search_fields = (
+        "email",
+        "first_name",
+        "last_name",
+    )
+
+    ordering = ("email",)
