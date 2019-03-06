@@ -35,10 +35,15 @@
         </div>
     </nav>
 
-    <div style="margin: 10px">
+    {% for message in messages %}
+		<div class="alert alert-{{ message.tags }}">
+			{{ message }}
+		</div>
+    {% endfor %}
+
+
         {% block content %}
         {% endblock content %}
-    </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
