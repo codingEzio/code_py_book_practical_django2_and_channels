@@ -338,6 +338,66 @@
         #   Post & Authenticate
         ```
 
+
+### Page :: *Registration*
+- A Word
+    - The steps are quite *similar* to the steps while creating *registratin page*.
+- What needs to be written
+    1. *forms*
+
+        ```python
+        # We mainly do these things
+        # || Two forms added "login page" (email, password)
+        # || Override `__init__` => Get the `request` object (sensitive! XD)
+        # || Override `clean`    => Auth by provided info (fail-error, termlog-success)
+        
+        # Go check the code (detailed comments inside).
+        ```
+    
+    2. *settings*
+
+        ```python
+        LOGIN_REDIRECT_URL = "/"    # Homepage
+        ```
+
+    3. *urls*
+
+        ```python
+        from django.contrib.auth import views as auth_views
+        from main                import forms
+
+        path(
+            "login/",
+            auth_views.LoginView.as_view(
+                template_name="login.html",
+                form_class=forms.AuthenticationForm
+            ),
+            name="login"
+        )
+        ```
+    
+    4. *templates*
+
+        ```html
+        <!-- 
+        Ah, quite simple.
+            1. Two inputs for {username, password}
+            2. One button for {submit}
+        -->
+        ```
+
+- Testing
+    - Usage
+
+        ```bash
+        # Step 1
+        open http://localhost:8000/login/
+
+        # Step 2
+        #   IF success  =>  See log msg in terminal
+        #   IF failed   =>  Info'll be display above the inputs.
+        ```
+
 -----------
 
 ### References 
