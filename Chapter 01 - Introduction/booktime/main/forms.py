@@ -8,6 +8,8 @@ from django.contrib.auth.forms import (
     UserCreationForm as OurUserCreationForm
 )
 from django.contrib.auth.forms import UsernameField
+from django.contrib.auth import authenticate
+from django.contrib import messages
 
 from . import models
 
@@ -76,3 +78,66 @@ class UserCreationForm(OurUserCreationForm):
             [self.cleaned_data["email"]],
             fail_silently=True,
         )
+
+
+class AuthenticationForm(forms.Form):
+    """
+    The page being redirected to is define as an const.
+    In 'settings.py'
+        append => LOGIN_REDIRECT_URL = "/"
+    """
+
+    email = forms.EmailField()
+    password = forms.CharField(
+        strip=False, widget=forms.PasswordInput
+    )
+
+    def __init__(self, request=None, *args, **kwargs):
+        """
+        Since we're doing "auth" solely inside this `forms.py`.
+        We'll need to 'get' the request info (just like 'views' did).
+
+        Just so you know, the "forms" and "views" has some similarities.
+        I'll elaborate this in the 'README_NUM' notes (upper level -> projet).
+        """
+
+        self.request = request
+        self.user = None
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+
+        if email is not None and password:
+
+            # Auth with [email+password]
+            self.user = authenticate(
+                self.request, email=email, password=password
+            )
+
+            # Auth failed
+            if self.user is None:
+                messages.warning(
+                    self.request, "Invalid email/password combination."
+                )
+                raise forms.ValidationError(
+                    "Invalid email/password combination."
+                )
+
+            # What if you don't input anything?
+            # => You're actually being stop at the very first (by HTML).
+
+            # The code will execute to here
+            # if everything is going great (success => terminal log info).
+            logger.info(
+                "Authentication successful for email=%s", email
+            )
+            messages.success(
+                self.request, "Authentication successful!"
+            )
+
+        return self.cleaned_data
+
+    def get_user(self):
+        return self.user
