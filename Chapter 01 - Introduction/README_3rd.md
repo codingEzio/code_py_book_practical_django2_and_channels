@@ -398,6 +398,51 @@
         #   IF failed   =>  Info'll be display above the inputs.
         ```
 
+### Flashing *message*
+- About **```messages```**
+    - It was used to "flash" a message to users (after doing/finished sth).
+        - Examples here: [w3schools.com/../bootstrap_alerts.asp](https://www.w3schools.com/bootstrap/bootstrap_alerts.asp)
+        - For *Django* it's still quite simple to use (in the templates).
+    - Code :: *Python*
+
+        ```python
+        """ Where to insert this, exactly? """
+
+        # Places like these
+        # >>> messages.warning( .. , "Invalid email/password combination." )
+        # >>> messages.success( .. , "Authentication successful!"          )
+
+
+        """ Usage """
+        
+        from django.contrib import messages
+
+        messages.debug   (request , "%s SQL statement were executed." % count )
+        messages.info    (   ..   , "You signed up successfully."             )
+        messages.success (   ..   , "Profile details updated."                )
+        messages.warning (   ..   , "Your account expires in three days."     )
+        messages.errors  (   ..   , "Product does not exist!"                 )
+        ```
+
+    - Code :: *templates*
+
+        ```html
+        <!-- PROJECT/main/templates/base.html -->
+
+        <nav> ... </nav>
+
+        {% for message in messages %}
+		    <div class="alert alert-{{ message.tags }}">
+		    	{{ message }}
+		    </div>
+        {% endfor %}
+
+        {% block content %}
+            ...
+        {% endblock content %}
+        ```
+
+
 -----------
 
 ### References 
