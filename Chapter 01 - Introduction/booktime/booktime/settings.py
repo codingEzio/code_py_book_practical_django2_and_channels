@@ -150,3 +150,6 @@ LOGGING = {
 
 # Customizing 'User' model
 AUTH_USER_MODEL = "main.user"
+
+# Redirect to WHERE
+LOGIN_REDIRECT_URL = "/"
