@@ -129,3 +129,20 @@
             1. It contains <AreYouSureToDelete, submitToDelete> (summary).
         -->
         ```
+
+- And the *tests*, of course.
+
+    ```python
+    """ Location :: main/tests/test_views.py :: TestPage """
+
+    def test_address_list_page_returns_only_owned():
+        # 1. Create user
+        # 2. Assign 'addresses' stuff to the user
+        # 3. Login with one of them & test if the "filter" works
+
+    def test_address_create_stores_user():
+        # 1. Create user
+        # 2. Login
+        # 3. Post date & test if it's there
+
+    ```
