@@ -160,3 +160,64 @@ class TestPage(TestCase):
         )
 
         mock_send.assert_called_once()
+
+    def test_address_list_page_returns_only_owned(self):
+        user1 = models.User.objects.create_user(
+            "user1", "whatever"
+        )
+        user2 = models.User.objects.create_user(
+            "user2", "whatever"
+        )
+
+        models.Address.objects.create(
+            user=user1,
+            name="jone doe",
+            address1="addr One",
+            address2="addr Two",
+            city="London",
+            country="uk",
+        )
+        models.Address.objects.create(
+            user=user2,
+            name="jay morse",
+            address1="baker st221b",
+            address2="baker st222b",
+            city="London",
+            country="uk",
+        )
+
+        self.client.force_login(user2)
+
+        response = self.client.get(reverse("main:address_list"))
+
+        self.assertEqual(response.status_code, 200)
+
+        address_list = models.Address.objects.filter(user=user2)
+        self.assertEqual(
+            list(response.context["object_list"]),
+            list(address_list),
+        )
+
+    def test_address_create_stores_user(self):
+        user1 = models.User.objects.create_user(
+            "user1", "whatever"
+        )
+
+        post_data = {
+            "name": "john snow",
+            "address1": "north land",
+            "address2": "",
+            "zip_code": "888899",
+            "city": "tully",
+            "country": "uk",
+        }
+
+        self.client.force_login(user1)
+        self.client.post(
+            reverse("main:address_create"),
+            post_data
+        )
+
+        self.assertTrue(
+            models.Address.objects.filter(user=user1).exists()
+        )
