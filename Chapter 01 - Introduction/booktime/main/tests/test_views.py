@@ -248,6 +248,9 @@ class TestPage(TestCase):
             reverse("main:add_to_basket"),
             { "product_id": prod1.id }
         )
+
+        # I wonder if this is a typo, which is,
+        # this part was written twice in the book (ah).
         response = self.client.get(
             reverse("main:add_to_basket"),
             { "product_id": prod1.id }
