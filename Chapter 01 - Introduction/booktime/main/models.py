@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 
+from django.core.validators import MinValueValidator
+
 
 class ActiveManager(models.Manager):
     def active(self):
@@ -87,7 +89,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, password = None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
 
@@ -116,10 +118,10 @@ class User(AbstractUser):
     username = None
     email = models.EmailField("email address", unique=True)
 
-    USERNAME_FIELD = "email"    # ↑ the `email` field above ↑
+    USERNAME_FIELD = "email"  # ↑ the `email` field above ↑
     REQUIRED_FIELDS = []
 
-    objects = UserManager()     # override some of methods we needed
+    objects = UserManager()  # override some of methods we needed
 
 
 class Address(models.Model):
@@ -150,3 +152,30 @@ class Address(models.Model):
             self.city,
             self.country,
         ])
+
+
+class Basket(models.Model):
+    OPEN = 10
+    SUBMITTED = 20
+    STATUSES = ((OPEN, "Open"), (SUBMITTED, "Submitted"))
+
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True
+    )
+    status = models.IntegerField(choices=STATUSES, default=OPEN)
+
+    def is_empty(self):
+        return self.basketline_set.all().count() == 0
+
+    def count(self):
+        return sum(i.quantity for i in self.basketline_set.all())
+
+
+class BasketLine(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    quantity = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1)]
+    )
