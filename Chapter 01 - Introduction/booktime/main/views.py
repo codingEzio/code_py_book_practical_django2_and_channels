@@ -1,17 +1,19 @@
 import logging
 
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
+from django.views.generic.list import ListView
 from django.views.generic.edit import (
     FormView,
     CreateView,
     UpdateView,
     DeleteView,
 )
-from django.views.generic.list import ListView
-from django.shortcuts import get_object_or_404
 
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import login, authenticate
 from django.contrib import messages
 
 from main import forms, models
@@ -122,7 +124,6 @@ class SignupView(FormView):
         return response
 
 
-
 ADDRESS_FIELDS = [
     "name",
     "address1",
@@ -169,3 +170,67 @@ class AddressDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
+
+
+def add_to_basket(request):
+    """
+    The <middlewares> we've written helps us to get the "basket in session|cookie".
+
+    Some results (might be bugs, or not)
+    -- 1. You could buy the same product multiple times.
+    -- 2. You could buy products without logging in (huh?).
+    -- 3. ..
+    """
+
+    # Get ONE product at a time (every time you clicked the 'add_to_basket')
+    product = get_object_or_404(
+        models.Product, pk=request.GET.get("product_id")
+    )
+
+    # Whether there is BASKET in the session storage
+    # Yep -> Okay
+    # Nah -> None
+    basket = request.basket
+
+    # If the basket is NULL
+    if not request.basket:
+
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+
+        # Create a basket with current user (or None)
+        #   That means <You CAN "add products to basket" without logging in!>
+        basket = models.Basket.objects.create(user=user)
+
+        # Create a session storage in browser
+        request.session["basket_id"] = basket.id
+
+    # Add the 'product' to the 'basket'
+    #   and the `created` arg is a boolean value (succeeded or not)
+    basketline, created = models.BasketLine.objects.get_or_create(
+        basket=basket, product=product
+    )
+
+    # True  ->  Equals to 'buy the product first time'
+    # False ->
+    #   Cuz the above (basket, product) is the same,
+    #   that means you can't create the objects again (which products 'False').
+    #   ---------- Ah, the logic is quite NOT intuitive, hell no! ----------
+    #   The 'False' resulted in you're NOT the first time to buy it
+    #   thus the quantity of the product in the basket should be increased.
+    if not created:
+        basketline.quantity += 1
+        basketline.save()
+
+    # Pitfall
+    #   Mixed 'args=(product.slug,)' with 'args=(product.slug)'  ( the ',' )
+    #   It'll be a sole string instead of a tuple (it should be a tuple by the way).
+    # The mechanics
+    #   since the {'buy the prod 1st time', 'increase the quantity'}
+    #   has been implemented by code above, the only thing for `return`
+    #   statement is to redirect the user to the respective product's page!
+    return HttpResponseRedirect(
+        reverse("main:product", args=(product.slug,))
+    )
