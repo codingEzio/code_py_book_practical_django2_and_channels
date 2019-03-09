@@ -99,12 +99,14 @@
 
         ```python
         """ Location :: main/tests/test_views.py :: TestPage """
-        
-        # test_add_to_basket_logged_in_works
-        
+
         # Two things basically
         # 1. Does the products being correctly added to the cart
         # 2. Does the amount of product in basket will be increased
-        ```
 
-- 
+
+        """ How to test it, exactly? """
+        # 1. Go to the product page, like `localhost:8000/product/siddhartha/`
+        # 2. Click the 'add-to-basket' button (you could buy it multiple times though).
+        # 3. After you've made up ur mind, the number would be displayed at the top.
+        ```
