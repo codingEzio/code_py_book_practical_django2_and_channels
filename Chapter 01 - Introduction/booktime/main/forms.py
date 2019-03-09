@@ -1,8 +1,7 @@
 import logging
 
 from django import forms
-from django.core.mail import send_mail
-
+from django.forms import inlineformset_factory
 
 from django.contrib.auth.forms import (
     UserCreationForm as OurUserCreationForm
@@ -11,8 +10,9 @@ from django.contrib.auth.forms import UsernameField
 from django.contrib.auth import authenticate
 from django.contrib import messages
 
-from . import models
+from django.core.mail import send_mail
 
+from . import models
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class ContactForm(forms.Form):
 
         message = "From: {0}\n{1}".format(
             self.cleaned_data["name"],
-            self.cleaned_data["message"]    
+            self.cleaned_data["message"]
         )
 
         send_mail(
@@ -55,8 +55,8 @@ class UserCreationForm(OurUserCreationForm):
         """
 
         model = models.User
-        fields = ("email", )
-        field_classes = {"email": UsernameField}
+        fields = ("email",)
+        field_classes = { "email": UsernameField }
 
     def send_mail(self):
         """
@@ -92,7 +92,7 @@ class AuthenticationForm(forms.Form):
         strip=False, widget=forms.PasswordInput
     )
 
-    def __init__(self, request=None, *args, **kwargs):
+    def __init__(self, request = None, *args, **kwargs):
         """
         Since we're doing "auth" solely inside this `forms.py`.
         We'll need to 'get' the request info (just like 'views' did).
@@ -141,3 +141,11 @@ class AuthenticationForm(forms.Form):
 
     def get_user(self):
         return self.user
+
+
+BasketLineFormSet = inlineformset_factory(
+    models.Basket,
+    models.BasketLine,
+    fields=("quantity",),
+    extra=0,
+)
