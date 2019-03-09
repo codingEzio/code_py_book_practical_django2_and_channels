@@ -110,3 +110,86 @@
         # 2. Click the 'add-to-basket' button (you could buy it multiple times though).
         # 3. After you've made up ur mind, the number would be displayed at the top.
         ```
+
+### Manage *basket* **view**
+- What we need 
+    - Features
+        - A page to **modify the content** of the *basket*
+            1. *change quantities* 
+            2. *delete lines* from the basket.
+    - Technique
+        - The *formsets*, which is a **multiple forms on the same page**.
+- Implementing it 
+    1. *forms*
+
+        ```python
+        """ File :: main/forms.py"""
+
+        BasketLineFormSet = inlineformset_factory(
+            models.Basket,
+            models.BasketLine,
+
+            # The quantity will surely be displayed.
+            # There's also a 'delete' button provided by `inlineformset_factory`.
+            fields=("quantity",),
+            extra=0,
+        )
+        ```
+
+    2. *views*
+
+        ```python
+        # It mainly does these things
+        # -- What to render (no-basket,  have-basket-but-zero, GET, POST)
+        # -- Validate
+        # -- Save data to database
+        ```
+
+    3. *templates*
+
+        ```html
+        <!-- Display the formsets & the 'submit' button. -->
+
+        ...
+
+        <form method="POST"> {% csrf_token %}
+			{% for form in formset %}
+				<p>
+					{{ form.instance.product.name }}
+					{{ form }}
+				</p>
+			{% endfor %}
+
+			<button type="submit" class="btn btn-primary">
+				Update basket
+			</button>
+		</form>
+
+        ...
+
+        ```
+
+    4. *urls*
+
+        ```python
+        path(
+            "basket/",
+            views.manage_basket, 
+            name="basket"
+        )
+        ```
+
+    5. usage
+
+        ```bash
+        # Firstly, adding some products.
+        #   e.g. http://localhost:8000/product/siddhartha/
+        
+        # After you've satisfied (XD)
+        #   access this page: http://localhost:8000/basket/ 
+        
+        # You could do these 
+        #   1. Update the quantity of products
+        #   2. Delete products from the basket :D
+        ```
+
