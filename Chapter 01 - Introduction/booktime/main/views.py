@@ -1,6 +1,6 @@
 import logging
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 
@@ -234,3 +234,34 @@ def add_to_basket(request):
     return HttpResponseRedirect(
         reverse("main:product", args=(product.slug,))
     )
+
+
+def manage_basket(request):
+    """
+    """
+
+    # The user doesn't have a basket yet (just browsing)
+    if not request.basket:
+        return render(request, "basket.html", { "formset": None })
+
+    if request.method == "POST":
+
+        # Post actions (deletion)
+        formset = forms.BasketLineFormSet(
+            request.POST, instance=request.basket
+        )
+
+        if formset.is_valid():
+            formset.save()
+    else:
+
+        # Method 'GET' (display the form only)
+        formset = forms.BasketLineFormSet(
+            instance=request.basket
+        )
+
+    # The user do has a basket, but with its amount of product is zero ?!
+    if request.basket.is_empty():
+        return render(request, "basket.html", { "formset": None })
+
+    return render(request, "basket.html", { "formset": formset })
