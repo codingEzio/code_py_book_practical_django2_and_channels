@@ -29,4 +29,10 @@
 		<p>You have no items in the basket.</p>
 
 	{% endif %}
-{% endblock %}
+{% endblock content %}
+
+{% block js %}
+	{% if formset %}
+		{{ formset.media }}
+	{% endif %}
+{% endblock js %}
