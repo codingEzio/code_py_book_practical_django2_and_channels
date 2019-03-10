@@ -1,14 +1,14 @@
-from io import BytesIO
 import logging
-
-from PIL import Image
+from io import BytesIO
 
 from django.core.files.base import ContentFile
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in
 
-from .models import ProductImage
+from PIL import Image
 
+from .models import ProductImage, Basket
 
 THUMBNAIL_SIZE = (300, 300)
 
@@ -27,7 +27,7 @@ def generate_thumbnail(sender, instance, **kwargs):
                 
         NEW     image_inst.thumbnail(THUMBNAIL_SIZE)
     """
-    
+
     logger.info("Generating thumbnail for product %2d", instance.product.id)
 
     image_inst = Image.open(instance.image)
@@ -43,3 +43,56 @@ def generate_thumbnail(sender, instance, **kwargs):
     )
 
     temp_thumb.close()
+
+
+@receiver(user_logged_in)
+def merge_baskets_if_found(sender, user, request, **kwargs):
+    """
+    About the `receiver`
+        `user_logged_in`    Sent when a user logs in successfully.
+
+    About the 'merge' here
+        It means that 'merging products in the basket to the current user'.
+
+    I havn't cleaned up my mind about this method (merging baskets).
+    """
+
+    # See if there's a basket being stored before
+    anonymous_basket = getattr(request, "basket", None)
+
+    # This big chunk of code won't run unless it gets stuff in the `request` object
+    if anonymous_basket:
+        try:
+            # Assign the current user to a new 'basket' object
+            loggedin_basket = Basket.objects.get(
+                user=user, status=Basket.OPEN
+            )
+
+            # About the `basketline_set`
+            #   It was called 'reverse related object lookup'.
+            #   Simply put, from [fk.being_fked](fked) to [being_fked.fk_set](fk_set)
+            for line in anonymous_basket.basketline_set.all():
+
+                # Merging the basket with the current user's
+                line.basket = loggedin_basket
+                line.save()
+
+            # Delete the one in the ?cache
+            anonymous_basket.delete()
+
+            # Assign the basket for 'views, templates' to use
+            request.basket = loggedin_basket
+
+            logger.info(
+                "Merged basket to id %d", loggedin_basket.id
+            )
+
+        except Basket.DoesNotExist:
+
+            # Assign a blank basket to the user?
+            anonymous_basket.user = user
+            anonymous_basket.save()
+
+            logger.info(
+                "Assigned user to basket id %d", anonymous_basket.id
+            )
