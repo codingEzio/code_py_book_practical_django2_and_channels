@@ -190,3 +190,62 @@
       #   1. Update the quantity of products
       #   2. Delete products from the basket :D
      ```
+
+---
+
+### Foreword for the next section
+
+- Do remember there's a big difference between *Taobao* & *Ebay* <small>( and any other non-local sites )</small>
+    - You *cannot* buy stuff without logging in, which is, the bloody *Taobao*.
+    - But another version of it, aka. *AliExpress*, might actually able to do this.
+- I've done some *searching* in order to find what sites can *do* this.
+    - Here's a dead simple comparison
+        1. *Ebay* <small>( without logging in: *add-to-cart*, *checkout* )</small>
+        2. *Amazon* <small>( without logging in: *add-to-cart* )</small>
+        3. *Taobao* <small>( without logging in: **N/A** )</small>
+
+### A brief *review* for the code we've written
+- Apparently, what I'm talking about is the *basket* functionalities,
+    - which is, now that you can 
+        - *put products into the basket* 
+        - *edit the amount of products in the basket*.
+- There's still some features we havn't implemented yet,
+    - For example, **merging the baskets after user logged in**.
+    - That means you could add stuff to basket even if you're just a *anonymous* user.
+- You should **clean up** the ```basket```, ```basketline``` table **each time** before you start testing.
+
+### What needs to be written
+1. *signals*
+
+    ```python
+    # Go check the code (main/signals.py) anyway.
+    # I havn't cleaned this up, just a bunch of comments won't help much.
+    ```
+
+2. *tests*
+    - Manually testing
+
+        ```bash
+        # First make sure the database is clear
+        # which is, the `main_basket` & `main_baskline` must be blank.
+        
+        # Then make sure you've logged off ( => localhost:8000/admin/ )
+        # Now you can start buying stuff, URLs could be like this
+        #   http://localhost:8000/products/the-cathedral-and-the-bazaar/
+        #   http://localhost:8000/products/backgammon-for-dummies/
+        #   http://localhost:8000/products/siddhartha/
+        
+        # After doing the purchase, login with ur account
+        # then go check the basket: http://localhost:8000/basket/
+        ```
+    
+    - The code <small>( structure )</small>
+
+        ```python
+        # 1. One user, two products
+        # 2. Buy stuff, total num is three
+        # 3. Log in, check { auth, auth_success_or_not }
+        # 4. Check the number of product in the basket ( merged => three products )
+        ```
+
+---
