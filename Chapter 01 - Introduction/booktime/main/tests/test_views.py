@@ -277,3 +277,52 @@ class TestPage(TestCase):
             ).count(),
             2,
         )
+
+    def test_add_to_basket_login_merge_works(self):
+        """
+        """
+
+        user_one = models.User.objects.create_user(
+            "user_one@example.com", "thisisfun"
+        )
+        prod_one = models.Product.objects.create(
+            name="product One",
+            slug="product-one",
+            price=Decimal("1.00"),
+        )
+        prod_two = models.Product.objects.create(
+            name="product Two",
+            slug="product-two",
+            price=Decimal("2.00"),
+        )
+
+        basket = models.Basket.objects.create(user=user_one)
+
+        # Basket status :: { 2* prod_one }
+        models.BasketLine.objects.create(
+            basket=basket, product=prod_one, quantity=2
+        )
+
+        # Basket status :: { 2* prod_one, 1* prod_two }
+        response = self.client.get(
+            reverse("main:add_to_basket"), {"product_id": prod_two.id}
+        )
+
+        # Logged in from here
+        response = self.client.post(
+            reverse("main:login"),
+            {"email": "user_one@example.com", "password": "thisisfun"}
+        )
+
+        self.assertTrue(
+            auth.get_user(self.client).is_authenticated
+        )
+
+        self.assertTrue(
+            models.Basket.objects.filter(user=user_one).exists()
+        )
+
+        # Assign the added products to the current user
+        basket = models.Basket.objects.get(user=user_one)
+
+        self.assertEquals(basket.count(), 3)
