@@ -179,3 +179,75 @@ class BasketLine(models.Model):
         default=1,
         validators=[MinValueValidator(1)]
     )
+
+
+class Order(models.Model):
+    """
+    About `xx_address` field
+        It was meant to < make orders snapshots in time >
+        & any subsequent change to a <users' addrs> won't affect existing orders.
+    """
+
+    NEW = 10
+    PAID = 20
+    DONE = 30
+    STATUSES = ((NEW, "New"), (PAID, "Paid"), (DONE, "Done"),)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # deletion related
+    status = models.IntegerField(choices=STATUSES, default=NEW)
+
+    # -------------------- Part One ---------- ----------
+
+    billing_name = models.CharField(max_length=60)
+    billing_address1 = models.CharField(max_length=60)
+    billing_address2 = models.CharField(max_length=60, blank=True)
+
+    billing_zip_code = models.CharField(max_length=12)
+    billing_city = models.CharField(max_length=60)
+    billing_country = models.CharField(max_length=3)
+
+    # -------------------- Part Two ---------- ----------
+
+    shipping_name = models.CharField(max_length=60)
+    shipping_address1 = models.CharField(max_length=60)
+    shipping_address2 = models.CharField(max_length=60, blank=True)
+
+    shipping_zip_code = models.CharField(max_length=12)
+    shipping_city = models.CharField(max_length=60)
+    shipping_country = models.CharField(max_length=3)
+
+    # -------------------- Part Three ---------- ----------
+
+    date_updated = models.DateTimeField(auto_now=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+
+class OrderLine(models.Model):
+    """
+    About `related_name`
+        Example
+            || OLD  --  order.orderline_set.all()
+            || NEW  --  order.lines.all()
+        Explanation
+            1. We're doing "reverse related obj lookup" (which produces 'orderline').
+    """
+
+    NEW = 10
+    PROCESSING = 20
+    SENT = 30
+    CANCELLED = 40
+    STATUSES = (
+        (NEW, "New"), (PROCESSING, "Processing"),
+        (SENT, "Sent"), (CANCELLED, "Cancelled"),
+    )
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE, related_name="lines",
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT
+    )
+
+    status = models.IntegerField(choices=STATUSES, default=NEW)
