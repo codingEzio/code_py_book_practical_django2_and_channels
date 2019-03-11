@@ -49,6 +49,22 @@
         }
         ```
 
+    - Other
+        - \#1 Issue
+
+            ```console
+            $ psql
+            psql: could not connect to server: No such file or directory
+                Is the server running locally and accepting
+                connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+            ```
+
+        - \#1 Issue fix 
+
+            ```bash
+            rm /usr/local/var/postgres/postmaster.pid
+            ```
+
 ----------
 
 ### Get our first page *running*
