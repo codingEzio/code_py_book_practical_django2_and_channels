@@ -11,13 +11,13 @@ class TestModel(TestCase):
         The "manager" itself lives in the 'models.py'
 
         Example code
-        >>> class ActiveManager(models.Manager):
-        >>>     def active(self):
-        >>>         return self.filter(active=True)
+        >> class ActiveManager(models.Manager):
+        >>     def active(self):
+        >>         return self.filter(active=True)
 
-        >>> class Product(models.Model):
-        >>>     ...
-        >>>     objects = ActiveManager()
+        >> class Product(models.Model):
+        >>     ...
+        >>     objects = ActiveManager()
         """
 
         models.Product.objects.create(
@@ -31,5 +31,5 @@ class TestModel(TestCase):
         )
 
         # The test objects here are only two "active" objs
-        # so that's why the 2nd param of `assertEqual` is "2"
+        # so that's why the 2nd param of `assertEqual` is "2".
         self.assertEqual(len(models.Product.objects.active()), 2)
