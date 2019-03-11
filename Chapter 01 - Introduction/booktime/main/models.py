@@ -1,11 +1,17 @@
-from django.db import models
+import logging
 
+from django.db import models
 from django.contrib.auth.models import (
     AbstractUser,
     BaseUserManager,
 )
 
 from django.core.validators import MinValueValidator
+
+from . import exceptions
+
+
+logger = logging.getLogger(__name__)
 
 
 class ActiveManager(models.Manager):
@@ -155,6 +161,21 @@ class Address(models.Model):
 
 
 class Basket(models.Model):
+    """
+    A review of 'Basket' & 'BasketLine' model (which is very needed)
+
+        #fields Basket
+        || id           id          # internal & incremental
+        || user         user_id     # whose basket (one user CAN have multiple baskets!!)
+        || status       status      # basket status: STILL-BUYING, READY-TO-CHECKOUT
+
+        #fields BasketLine
+        || id           id          # internal & incremental
+        || basket       basket_id   # link to 'Basket' model  (multiple to ONE in `Basket`)
+        || product      product_id  # along with `quantity`   (each prod got its own records)
+        || quantity     quantity    # along with `product_id` (each qutt got its own records)
+    """
+
     OPEN = 10
     SUBMITTED = 20
     STATUSES = ((OPEN, "Open"), (SUBMITTED, "Submitted"))
@@ -169,7 +190,6 @@ class Basket(models.Model):
 
     def count(self):
         return sum(i.quantity for i in self.basketline_set.all())
-
 
 class BasketLine(models.Model):
     basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
