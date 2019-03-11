@@ -174,6 +174,8 @@ class AddressDeleteView(LoginRequiredMixin, DeleteView):
 
 def add_to_basket(request):
     """
+    # TODO Review needed, but not now.
+
     The <middlewares> we've written helps us to get the "basket in session|cookie".
 
     Some results (might be bugs, or not)
@@ -265,3 +267,4 @@ def manage_basket(request):
         return render(request, "basket.html", { "formset": None })
 
     return render(request, "basket.html", { "formset": formset })
+
