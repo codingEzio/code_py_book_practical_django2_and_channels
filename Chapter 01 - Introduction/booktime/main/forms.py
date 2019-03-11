@@ -148,5 +148,24 @@ BasketLineFormSet = inlineformset_factory(
     models.BasketLine,
     fields=("quantity",),
     extra=0,
-    widgets={"quantity": widgets.PlusMinusNumberInput()},  # customized 'input'
+    widgets={ "quantity": widgets.PlusMinusNumberInput() },  # customized 'input'
 )
+
+
+class AddressSelectionForm(forms.Form):
+    """
+    Widgets for selecting addresses.
+    || 1. This is dynamic
+    || 2. The user can only pick his own addrs.
+    """
+
+    billing_address = forms.ModelChoiceField(queryset=None)
+    shipping_address = forms.ModelChoiceField(queryset=None)
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        queryset = models.Address.objects.filter(user=user)
+
+        self.fields["billing_address"].queryset = queryset
+        self.fields["shipping_address"].queryset = queryset
