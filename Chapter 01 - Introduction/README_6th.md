@@ -24,7 +24,7 @@
             .. ,
             .. ,
             widgets={ "quantity" : widgets.PlusMinusNumberInput() }    # our customized 'input'
-    )
+        )
         ```
         
     3. *templates*
@@ -47,4 +47,63 @@
     		        {{ formset.media }}
 	          {% endif %}
         {% endblock js %}
+        ```
+        
+### *Orders* & *Checkouts* 
+- Still, the 1st thing to do is to lay the *foundations*, aka. ***models***.
+    - Similar names compare to ```Basket```, namely, ```Order``` & ```OrderLine```.
+    - Oh, do remember to run this command after writing the models
+
+        ```bash
+        ./manage.py makemigrations
+        ./manage.py migrate
+        ```
+        
+- The *Foundations*
+    
+    1. *exceptions*
+        
+        ```python
+        # Nothing fancy ( lives in 'main/exceptions.py' )
+        
+        class BasketException(Exception):
+            pass
+        ```
+    
+    2. *models* :: NEW
+    
+        ```python
+        class Order    (..):
+            # user
+            # status
+            # billing  info
+            # shipping info
+            # date     created|updated 
+            
+        class OrderLine(..):
+            # order
+            # status
+            # product
+        ```
+
+    3. *models* :: NEW method for OLD model
+    
+        ```python
+        class Basket(..):
+            ..
+            ..
+            
+            def create_order( .. , .. , .. ):
+                
+        ```
+    
+    4. *tests*
+
+        ```python
+        # Procedures
+        # 1. Setup the base: 1-user, 2-prod, address-billing, address-shipping
+        # 2. Add products to basket: xxx's-basket <= adding-two-prod-to-it
+        # 3. Testing logs which is being setup in the 'models.py'
+        # 4. Testing correct-user | correct-addresses
+        # 5. Testing products in the basket | orders
         ```
