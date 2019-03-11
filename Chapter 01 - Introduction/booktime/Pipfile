@@ -11,6 +11,7 @@ pylama = "*"
 psycopg2-binary = "*"
 pillow = "*"
 ipython = "*"
+selenium = "*"
 
 [requires]
 python_version = "3.7"
