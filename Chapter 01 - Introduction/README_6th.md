@@ -52,7 +52,7 @@
 ### *Orders* & *Checkouts* 
 - Still, the 1st thing to do is to lay the *foundations*, aka. ***models***.
     - Similar names compare to ```Basket```, namely, ```Order``` & ```OrderLine```.
-    - Oh, do remember to run this command after writing the models
+    - Oh, do remember to ***run this command after writing the models***
 
         ```bash
         ./manage.py makemigrations
@@ -106,4 +106,91 @@
         # 3. Testing logs which is being setup in the 'models.py'
         # 4. Testing correct-user | correct-addresses
         # 5. Testing products in the basket | orders
+        ```
+
+- The other part: *display billing|shipping addresses*
+
+    1. *forms*
+
+        ```python
+        class AddressSelectionForm(forms.Form):
+            """
+            It's still a part of the template, dedicated to `<form>` only.
+            """
+
+            billing_address  = forms.ModelChoiceField(queryset=None)
+            shipping_address = forms.ModelChoiceField(queryset=None)
+
+            def __init__(self, user, ..):
+                super().__init__(..)
+
+                queryset = .. filter(user=user)
+
+                ..
+                ..
+        ```
+
+    2. *views*
+
+        ```python
+        # 1. Extract the user then inserting it to the response.
+        # 2. Create  order with the data provided by `AddressSelectionForm`.
+        # 3. Template base | success_page 
+        ```
+
+    3. *templates* ADD
+
+        ```html
+        <!-- main/templates :: address_select.html -->
+
+        <!-- 
+            1. The address choice field was done by `forms.py`
+            2. A 'submit' button
+            3. A 'add a new one(addr)' link 
+        -->
+        ```
+
+    4. *templates* ADD
+
+        ```html
+        <!-- main/templates :: order_done.html -->
+
+        <!-- 
+            The 'success' page (nothing fancy).
+        -->
+        ```
+
+    5. *templates* UPDATE
+
+        ```html
+        <!-- main/templates :: basket.html -->
+        
+        <!-- 
+            If logged in 
+                display the 'Place order' (which points to "address_select")
+
+            If not logged in
+                display the links: "Signup", "Login" (with `next` params)
+        -->
+        ```
+
+    6. *urls*
+
+        ```python    
+        path(
+            "order/done/",
+            TemplateView.as_view(template_name="order_done.html"),name="checkout_done"
+        ),
+
+        path(
+            "order/address_select/",
+            views.AddressSelectionView.as_view(),
+            name="address_select"
+        ),
+        ```
+
+    7. *testing* <small>( usage )</small>
+
+        ```bash
+        # Havn't try it yet.
         ```
