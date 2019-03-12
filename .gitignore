@@ -7,6 +7,7 @@
 # irrelevant files
 # Chapter 01 - Introduction/booktime/media/
 media/
+Project/node_modules/
 
 # env folder
 env
