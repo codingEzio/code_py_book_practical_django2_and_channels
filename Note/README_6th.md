@@ -194,3 +194,13 @@
         ```bash
         # Havn't try it yet.
         ```
+
+### Hey, just so you know
+- There were two missing pieces in the most-recent commit messages.
+    1. Display *Basket* & *Order* info at the *admin* site. 
+    2. One more ```imageswitch``` function inside the **product_detail.html** page.
+- Issues
+    - The *imageswitch* function seems stopped working.
+        - SHOULD  : *click one of them to see its bigger picture*
+        - CURRENT : *display both the small/big pictures*
+
