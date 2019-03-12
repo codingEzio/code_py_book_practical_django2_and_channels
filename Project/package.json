@@ -11,6 +11,9 @@
   "author": "Anonymous",
   "license": "UNLICENSED",
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
+    "jest": "^24.4.0",
     "webpack": "^4.29.6",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.2.3"
