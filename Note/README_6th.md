@@ -203,4 +203,25 @@
     - The *imageswitch* function seems stopped working.
         - SHOULD  : *click one of them to see its bigger picture*
         - CURRENT : *display both the small/big pictures*
+- Test for the newly added *functionality* (huh)
+    1. Base
 
+        ```bash
+        # Installation
+        pipenv install selenium
+        https://github.com/mozilla/geckodriver/releases
+        https://www.mozilla.org/en-US/firefox/channel/desktop/
+
+        # Resources
+        cp -rf OFFICIAL_REPO/main/fixtures/cb YOUR_REPO/main/fixtures/fixtures/
+        ```
+    
+    2. Code
+
+        ```python
+        # Get / Find / Click / Compare
+
+        # The tests just won't pass, here's the msg:
+        #   selenium.common.exceptions.SessionNotCreatedException: 
+        #   Message: Unable to find a matching set of capabilities
+        ```
