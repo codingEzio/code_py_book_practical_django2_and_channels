@@ -5,7 +5,8 @@
 ._*
 
 # irrelevant files
-Chapter 01 - Introduction/booktime/media/
+# Chapter 01 - Introduction/booktime/media/
+media/
 
 # env folder
 env
