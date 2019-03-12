@@ -12,6 +12,7 @@ psycopg2-binary = "*"
 pillow = "*"
 ipython = "*"
 selenium = "*"
+django-webpack-loader = "*"
 
 [requires]
 python_version = "3.7"
