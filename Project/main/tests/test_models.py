@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.test import TestCase
 
 from main import models
+from main import factories
 
 
 class TestModel(TestCase):
@@ -20,15 +21,8 @@ class TestModel(TestCase):
         >>     objects = ActiveManager()
         """
 
-        models.Product.objects.create(
-            name="The cathedral and the bazaar", price=Decimal("10.00")
-        )
-        models.Product.objects.create(
-            name="Price and Prejudice", price=Decimal("2.00")
-        )
-        models.Product.objects.create(
-            name="A Tale of Two Cities", price=Decimal("2.00"), active=False
-        )
+        factories.ProductFactory.create_batch(2, active=True)
+        factories.ProductFactory(active=False)
 
         # The test objects here are only two "active" objs
         # so that's why the 2nd param of `assertEqual` is "2".
@@ -38,31 +32,11 @@ class TestModel(TestCase):
         """
         """
 
-        prod_one = models.Product.objects.create(
-            name="Product One",
-            price=Decimal("1.00"),
-        )
-        prod_two = models.Product.objects.create(
-            name="Product Two",
-            price=Decimal("2.00"),
-        )
-        user_one = models.User.objects.create_user(
-            "user_one", "thisisfun"
-        )
-        billing = models.Address.objects.create(
-            user=user_one,
-            name="Jamie Lannister",
-            address1="Westworld",
-            city="London",
-            country="uk",
-        )
-        shipping = models.Address.objects.create(
-            user=user_one,
-            name="Jamie Lannister",
-            address1="Westworld",
-            city="London",
-            country="uk",
-        )
+        prod_one = factories.ProductFactory()
+        prod_two = factories.ProductFactory()
+        user_one = factories.UserFactory()
+        billing = factories.AddressFactory(user=user_one)
+        shipping = factories.AddressFactory(user=user_one)
 
         basket = models.Basket.objects.create(user=user_one)
 
@@ -84,8 +58,8 @@ class TestModel(TestCase):
         self.assertEquals(order.user, user_one)
 
         # correct billing|shipping addresses
-        self.assertEquals(order.billing_address1, "Westworld")
-        self.assertEquals(order.shipping_address1, "Westworld")
+        self.assertEquals(order.billing_address1, billing.address1)
+        self.assertEquals(order.shipping_address1, shipping.address1)
 
         # two products while checking out
         self.assertEquals(order.lines.all().count(), 2)
