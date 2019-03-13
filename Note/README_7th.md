@@ -192,3 +192,42 @@
     - Well, you could definitely access the page.
     - But since the ```checkout``` <small>( aka. ```address_select``` )</small> feature doesn't work.
         - You won't be able to filter anything out, ha.
+
+
+-----------
+
+
+### Tweaking *widgets*
+- Preparation
+
+    ```python
+    # 0. What does it do?
+    # --- Modify the CSS/HTML stuff without touching code (forms.py).
+    # --- We'll modify the templates using the "tags" provided by it.
+
+
+    # 1. Install
+    pipenv install django-widget-tweaks
+
+    # 2. Config
+    INSTALLED_APPS = [
+        .. ,
+        .. ,
+        "widget_tweaks",
+    ]
+    ```
+
+- Modifying the *templates*
+
+    ```html
+    <!-- 
+        main/templates/ :: include/forms.html
+
+        main/templates/
+        || login.html
+        || signup.html
+        || contact_form.html
+
+        Go check the code for more details.
+    -->
+    ```
