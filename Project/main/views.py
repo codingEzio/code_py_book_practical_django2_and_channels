@@ -1,10 +1,15 @@
 import logging
 
+from django.contrib import messages
+
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.contrib.auth import login, authenticate
 from django.views.generic.list import ListView
 from django.views.generic.edit import (
@@ -14,7 +19,11 @@ from django.views.generic.edit import (
     DeleteView,
 )
 
-from django.contrib import messages
+from django import forms as django_forms
+from django.db import models as django_models
+
+import django_filters
+from django_filters.views import FilterView
 
 from main import forms, models
 
@@ -298,3 +307,41 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
         )
 
         return super().form_valid(form)
+
+
+class DateInput(django_forms.DateInput):
+    input_type = "date"
+
+
+class OrderFilter(django_filters.FilterSet):
+    class Meta:
+        model = models.Order
+
+        fields = {
+            "user__email": ["icontains"],
+            "status": ["exact"],
+            "date_updated": ["gt", "lt"],
+            "date_added": ["gt", "lt"],
+        }
+
+        filter_overrides = {
+            django_models.DateTimeField: {
+                "filter_class": django_filters.DateFilter,
+                "extra": lambda f: { "widget": DateInput },
+            }
+        }
+
+
+class OrderView(UserPassesTestMixin, FilterView):
+    filterset_class = OrderFilter
+    login_url = reverse_lazy("main:login")
+
+    def test_func(self):
+        """
+        Restrict access by using `UserPassesTestMixin` & `test_func`.
+
+        That is
+            Only the admin users could access the `order-dashboard` page.
+        """
+
+        return self.request.user.is_staff == True
