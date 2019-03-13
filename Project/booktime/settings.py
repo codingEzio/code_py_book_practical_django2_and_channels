@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     "webpack_loader",
     "django_extensions",
     "debug_toolbar",
+    "django_tables2",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
