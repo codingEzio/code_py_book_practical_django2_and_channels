@@ -16,6 +16,7 @@ django-webpack-loader = "*"
 django-extensions = "*"
 pydotplus = "*"
 werkzeug = "*"
+factory-boy = "*"
 
 [requires]
 python_version = "3.7"
