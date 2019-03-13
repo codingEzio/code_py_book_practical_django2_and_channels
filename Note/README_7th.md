@@ -103,3 +103,92 @@
 
     # It'll be displayed in EVERY page, aha!
     ```
+
+
+### Visualizing *Orders*
+- Preparation
+
+    ```python
+    # ----- Terminal -----
+
+    pipenv install django-tables2
+    pipenv install django-filter
+    
+
+    # ----- Register & Config -----
+
+    INSTALLED_APPS = [
+        .. ,
+        .. ,
+        "django_tables2",
+        "django_filters",
+    ]
+
+    DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
+    ```
+
+
+- Writing *views*
+
+    ```python
+    from django import forms as django_forms
+    from django.db import models as django_models
+    from django.contrib.auth.mixins import UserPassesTestMixin
+    
+    import django_filters
+    from django_filters.views import FilterView
+
+
+    class DateInput     (..):
+        """ Selecting 'date'
+        """
+
+        ..
+
+    
+    class OrderFilter   (..):
+        """ What to filter, what condition to filter with etc.
+        """
+        
+        ..
+
+    
+    class OrderView     (..):
+        """ Using the filters above & restricting access (admin staff only)
+        """
+
+        ..
+    ```
+
+- Writing *templates*
+
+    ```html
+    {% extends "base.html" %}
+    {% load render_table from django_tables2 %}
+
+    {% block content %}
+	    <h2>Order dashboard</h2>
+
+    	<form method="GET">
+    		{{ filter.form.as_p }}    <!-- Most work were done by 'views.py' -->
+    		<input type="submit" />
+    	</form>
+
+    	.. {% render_table filter.qs %} ..
+    {% endblock content %}
+    ```
+
+- Writing *urls*
+
+    ```python
+    path(
+        "order-dashboard/",
+        views.OrderView.as_view(), 
+        name="order_dashboard")
+    )
+    ```
+
+- Testing
+    - Well, you could definitely access the page.
+    - But since the ```checkout``` <small>( aka. ```address_select``` )</small> feature doesn't work.
+        - You won't be able to filter anything out, ha.
