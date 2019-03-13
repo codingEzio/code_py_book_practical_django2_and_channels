@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
 
     "webpack_loader",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
