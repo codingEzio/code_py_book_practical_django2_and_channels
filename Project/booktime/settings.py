@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "django_tables2",
     "django_filters",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [
