@@ -18,6 +18,8 @@ pydotplus = "*"
 werkzeug = "*"
 factory-boy = "*"
 django-debug-toolbar = "*"
+django-tables2 = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.7"
