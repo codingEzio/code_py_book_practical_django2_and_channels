@@ -326,6 +326,9 @@ class Order(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return "[Order] #" + repr(self.id)
+
 
 class OrderLine(models.Model):
     """
@@ -356,3 +359,6 @@ class OrderLine(models.Model):
     )
 
     status = models.IntegerField(choices=STATUSES, default=NEW)
+
+    def __str__(self):
+        return "[OrderLine] #" + repr(self.id)
