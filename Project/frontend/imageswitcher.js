@@ -1,5 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+// import React from "react";
+// import ReactDOM from "react-dom";
+const React = require("react");
+const ReactDOM = require("react-dom");
 
 const e = React.createElement;
 
@@ -56,5 +58,5 @@ window.React = React;
 window.ReactDOM = ReactDOM;
 window.ImageBox = ImageBox;
 
-// module.exports = ImageBox;
-export default ImageBox;
+module.exports = ImageBox;
+// export default ImageBox;
