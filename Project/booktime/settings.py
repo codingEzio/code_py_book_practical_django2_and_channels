@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "django_tables2",
     "django_filters",
     "widget_tweaks",
+
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -175,3 +177,21 @@ WEBPACK_LOADER = {
 
 # Related config of 'django-debug-toolbar'
 INTERNAL_IPS = ["127.0.0.1"]
+
+# Configuration of Django REST Framework ( aka. DRF )
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.DjangoModelPermissions",
+    ),
+    "DEFAULT_FILTER_CLASSES": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ),
+    "DEFAULT_PAGINATION_CLASSES": (
+        "rest_framework.pagination.PageNumberPagination",
+    ),
+    "PAGE_SIZE": 100,
+}
