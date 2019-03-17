@@ -227,8 +227,8 @@
 ---------
 
 
-### Build tools for *static files*
-- More clearly, we'll install these stuff
+### Build-tool for *static files*
+- More precisely, it'll be these stuff
     1. Bundler
     2. Loader
     3. Framework
@@ -282,6 +282,6 @@
         ```
 
 - Issues
-    1. Bunch of errors out there, ah..
-    2. IT JUST DOESN'T WORK <small>( switch-image )</small>
-    3. This part is such a mess that I'll just *skip* this part without too much details :(
+    1. Bunch of errors out there, eh..
+    2. It just DOESN'T WORK <small>( 
+    3. This part is such a mess that I'll just *skip* this part, for now :(
