@@ -43,3 +43,25 @@
          -u EMAIL_ADDR:EMAIL_PASSWD   \
          http://localhost:8000/api/orderlines       # same as the 1st one!
     ```
+
+- Okay, let's build it!  <small>( *foundation* )</small>
+    
+    - Base
+
+        ```python
+        # Here's the steps
+        #   0. pip                          pipenv install djangorestframework
+        #   1. settings.py                  INSTALLED_APPS :: "rest_framework"
+        #   2. settings.py                  ↓ down below ↓
+        #   3. proj/booktime/urls.py        path("api-auth/", include("rest_framework.urls"))
+        
+        REST_FRAMEWORK = {
+            "DEFAULT_AUTHENTICATION_CLASSES": ( .. , .. ),    # REST
+            "DEFAULT_PERMISSION_CLASSES"    : ( .. ,    ),    # REST
+            "DEFAULT_FILTER_CLASSES"        : ( .. ,    ),    # 3rd-party module
+            "DEFAULT_PAGINATION_CLASSES"    : ( .. ,    ),    # REST
+            "PAGE_SIZE"                     : 100,
+        }
+        ```
+
+    
