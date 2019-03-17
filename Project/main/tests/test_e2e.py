@@ -4,36 +4,53 @@ from django.test import tag
 from django.urls import reverse
 from django.core.files.images import ImageFile
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
-from selenium.webdriver.firefox.webdriver import WebDriver
-# from selenium import webdriver
+from selenium import webdriver
 
 from main import models
-
 
 @tag("e2e")
 class FrontendTests(StaticLiveServerTestCase):
     """
-    There're always an error
-        selenium.common.exceptions.SessionNotCreatedException:
-        Message: Unable to find a matching set of capabilities
+    If using the code in the books
+        >> from selenium.webdriver.firefox.webdriver import WebDriver
+        >> cls.selenium = WebDriver()
+
+        You might encounter this:
+            selenium.common.exceptions.SessionNotCreatedException:
+            ↑ Message: Unable to find a matching set of capabilities
+
+    I myself choose to use the 'chromedriver' (solved the issue accidentally..)
+        The code here is a little different,
+        but I think it's even more intuitive than before :)
+
+        Download here
+            https://chromedriver.storage.googleapis.com/index.html
     """
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.selenium = WebDriver()
-        # cls.selenium = webdriver.Firefox(executable_path="/usr/local/bin/geckodriver")
-        cls.selenium.implicitly_wait(10)
+        cls.selenium = webdriver.Chrome(executable_path="/usr/local/bin/chromedriver")
+        cls.selenium.implicitly_wait(20)
 
     @classmethod
     def tearDownClass(cls):
+
+        # If you wanna see the result (gen_ed thumbnails)
+        # just commenting this line to make it stay that way.
         cls.selenium.quit()
 
         super().tearDownClass()
 
     def test_product_page_switches_images_correctly(self):
+        """
+        Well.. the tests would pass (& working perfectly fine).
+
+        Ah.. the weird thing is
+        it won't work if you access it normally (two pics only).
+        """
+
         product = models.Product.objects.create(
             name="The cathedral and the bazaar",
             slug="cathedral-bazaar",
