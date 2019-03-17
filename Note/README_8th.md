@@ -14,19 +14,23 @@
 
     ```bash
     # Orders :: ready to be shipped
+
     curl -H 'Accept: application/json; indent=4' \
-         -u dispatch@booktime.domain:abcabcabc   \
+         -u EMAIL_ADDR:EMAIL_PASSWD   \
          http://localhost:8000/api/orderlines
 
-    
+
     # Orders :: shipping address of the specific order
+
     curl -H 'Accept: application/json; indent=4' \
-         -u dispatch@booktime.domain:abcabcabc   \
+         -u EMAIL_ADDR:EMAIL_PASSWD   \
          http://localhost:8000/api/orders/2   
 
+
     # Orders :: update the status of the order lines 
+
     curl -H 'Accept: application/json; indent=4' \
-         -u dispatch@booktime.domain:abcabcabc   \
+         -u EMAIL_ADDR:EMAIL_PASSWD   \
          -XPUT                                   \
          -H 'Content-Type: application/json'     \
          -d '{"status": 20}'                     \
@@ -34,9 +38,8 @@
 
     
     # Orders :: check 'orders' after making changes to the status
+
     curl -H 'Accept: application/json; indent=4' \
-         -u dispatch@booktime.domain:abcabcabc   \
+         -u EMAIL_ADDR:EMAIL_PASSWD   \
          http://localhost:8000/api/orderlines       # same as the 1st one!
     ```
-
-- 
