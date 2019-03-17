@@ -12,6 +12,8 @@ const Adapter = require("enzyme-adapter-react-16");
 Enzyme.configure({adapter: new Adapter()});
 
 test("ImageBox switches images correctly", () => {
+    // Simply run `npm test` to run the test.
+
     let images = [
         {
             "image": "1.jpg",
