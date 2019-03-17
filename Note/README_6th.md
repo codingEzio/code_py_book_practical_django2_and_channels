@@ -207,23 +207,21 @@
     1. Base
 
         ```bash
-        # Installation
-        pipenv install selenium
-        https://github.com/mozilla/geckodriver/releases
-        https://www.mozilla.org/en-US/firefox/channel/desktop/
+        pipenv install selenium                                 # your env
+        https://chrome.google.com                               # /Applications/
+        https://chromedriver.storage.googleapis.com/index.html  # /usr/local/bin/
 
-        # Resources
+        # Test files
         cp -rf OFFICIAL_REPO/main/fixtures/cb YOUR_REPO/main/fixtures/fixtures/
         ```
     
     2. Code
 
         ```python
-        # Get / Find / Click / Compare
-
-        # The tests just won't pass, here's the msg:
-        #   selenium.common.exceptions.SessionNotCreatedException: 
-        #   Message: Unable to find a matching set of capabilities
+        # Get
+        # Find
+        # Click
+        # Compare
         ```
 
 ---------
