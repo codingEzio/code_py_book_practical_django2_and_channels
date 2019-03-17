@@ -189,9 +189,12 @@
     ```
 
 - Testing
-    - Well, you could definitely access the page.
-    - But since the ```checkout``` <small>( aka. ```address_select``` )</small> feature doesn't work.
-        - You won't be able to filter anything out, ha.
+    
+    ```bash
+    # 1. Make sure you've added some addresses 
+    # 2. Do some purchases (checkout)
+    # 3. Go 'http://localhost:/8000/order-dashboard' 
+    ```
 
 
 -----------
