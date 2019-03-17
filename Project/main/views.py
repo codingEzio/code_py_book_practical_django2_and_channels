@@ -291,7 +291,7 @@ class AddressSelectionView(LoginRequiredMixin, FormView):
     form_class = forms.AddressSelectionForm
     success_url = reverse_lazy("main:checkout_done")
 
-    def get_from_kwargs(self):
+    def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
 
