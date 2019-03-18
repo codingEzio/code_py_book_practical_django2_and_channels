@@ -1,12 +1,19 @@
-from django.urls import path
+from django.urls import path, include
+
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
-
 from django.contrib.auth import views as auth_views
 
-from main import views, models, forms
+from rest_framework import routers
+
+from main import views, models, forms, endpoints
 
 app_name = "main"
+
+router = routers.DefaultRouter()
+router.register(r"orderlines", endpoints.PaidOrderLineViewSet)
+router.register(r"orders", endpoints.PaidOrderViewSet)
+
 
 urlpatterns = [
     path("product/<slug:slug>/",
@@ -46,6 +53,8 @@ urlpatterns = [
          views.ContactUsView.as_view(), name="contact_us"),
     path("about-us/",
          TemplateView.as_view(template_name="about_us.html"), name="about_us"),
+
+    path("api/", include(router.urls)),
 
     path("",
          TemplateView.as_view(template_name="home.html"), name="home"),
