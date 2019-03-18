@@ -101,3 +101,21 @@
     #       -- central_office_admin
     #       -- dispatchers_admin
     ```
+
+
+- Change the former routes <small>( **```urls.py```** )</small>
+
+    ```python
+    # main/urls.py :: MODIFY
+
+    from main import admin
+
+    path("admin/", admin.main_admin.urls),
+    path("office-admin/", admin.central_office_admin.urls),
+    path("dispatch-admin/", admin.dispatchers_admin.urls),
+
+
+    # booktime/urls.py :: DELETE
+
+    path("admin/", admin.site.urls)
+    ```
