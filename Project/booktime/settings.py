@@ -52,7 +52,7 @@ TEMPLATES = [
         # This default configuration will try to
         # find 'templates' folders in each respective apps. (aka. APP_DIRS)
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
