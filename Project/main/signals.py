@@ -2,13 +2,14 @@ import logging
 from io import BytesIO
 
 from django.core.files.base import ContentFile
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
 
 from PIL import Image
 
 from .models import ProductImage, Basket
+from .models import OrderLine, Order
 
 THUMBNAIL_SIZE = (300, 300)
 
@@ -96,3 +97,27 @@ def merge_baskets_if_found(sender, user, request, **kwargs):
             logger.info(
                 "Assigned user to basket id %d", anonymous_basket.id
             )
+
+
+@receiver(post_save, sender=OrderLine)
+def orderline_to_order_status(sender, instance, **kwargs):
+    """
+    Quite a complex `if` statement!
+    || In short, it produces <NOT [any NEW/PROCESSING]> exists
+    || that is, all the "order lines" have been exec_ed (aka. 'SENT').
+    """
+
+    if not instance.order.lines \
+        .filter(status__lt=OrderLine.SENT) \
+        .exists():
+
+        # If all 'sent', tell us that it was all 'sent'.
+        logger.info(
+            "All lines for order [%2d] have been processed. Marking as done.",
+            instance.order.id
+        )
+
+        # Mark the order as finished, done!
+        instance.order.status = Order.DONE
+
+        instance.order.save()
