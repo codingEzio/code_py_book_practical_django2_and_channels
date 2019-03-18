@@ -6,14 +6,15 @@ from django.contrib.auth import views as auth_views
 
 from rest_framework import routers
 
-from main import views, models, forms, endpoints
+from main import views, models, forms
+from main import endpoints
+from main import admin
 
 app_name = "main"
 
 router = routers.DefaultRouter()
 router.register(r"orderlines", endpoints.PaidOrderLineViewSet)
 router.register(r"orders", endpoints.PaidOrderViewSet)
-
 
 urlpatterns = [
     path("product/<slug:slug>/",
@@ -53,6 +54,10 @@ urlpatterns = [
          views.ContactUsView.as_view(), name="contact_us"),
     path("about-us/",
          TemplateView.as_view(template_name="about_us.html"), name="about_us"),
+
+    path("admin/", admin.main_admin.urls),
+    path("office-admin/", admin.central_office_admin.urls),
+    path("dispatch-admin/", admin.dispatchers_admin.urls),
 
     path("api/", include(router.urls)),
 
