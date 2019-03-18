@@ -10,7 +10,6 @@ from django.core.validators import MinValueValidator
 
 from . import exceptions
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -119,6 +118,13 @@ class User(AbstractUser):
     Q & A
         USERNAME_FIELD      it could any fields (mostly 'CharField', 'EmailField', though)
         REQUIRED_FIELDS     prompted for when creating a user via the `createsuperuser` (huh)
+
+        @.. is_employee     Flag stuff, modify data, check site performance
+        @.. is_dispatcher   Flag stuff (less permissions than above)
+
+            About the `@property`
+            || Make the 'is_employee' simply returns True/False.
+            || You're able to call it by 'INST.is_employee' without the brackets!
     """
 
     username = None
@@ -128,6 +134,20 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()  # override some of methods we needed
+
+    @property
+    def is_employee(self):
+        return self.is_active and (
+            self.is_superuser or self.is_staff
+            and self.groups.filter(name="Employees").exists()
+        )
+
+    @property
+    def is_dispatcher(self):
+        return self.is_active and (
+            self.is_superuser or self.is_staff
+            and self.groups.filter(name="Dispatchers").exists()
+        )
 
 
 class Address(models.Model):
@@ -273,7 +293,6 @@ class Basket(models.Model):
         self.save()
 
         return order
-
 
 
 class BasketLine(models.Model):
