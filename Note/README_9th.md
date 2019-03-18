@@ -1,5 +1,4 @@
-### Foreword
-- In short, we're gonna **customizing** ***admin*** **site** in this chapter.
+### Customizing different *admin-site* for different roles
 - About *admin backend*
 
     ```bash
@@ -43,4 +42,27 @@
     #   1. Clone the offical repo, copy the 'app-main/data/' to your 'app-main/'
     #   2. The filename is 'user_group.json', just so you know.
     #   3. Import the data by `./manage.py loaddata main/data/user_groups.json`
+    ```
+
+- And add two more methods for **identifying what type of users is**
+
+    ```python
+    # PROJECT/main/models.py :: User (put the code at the bottom)
+    
+    class User(AbstractUser):
+        ..
+        ..
+
+        @property
+        def is_employee(self):
+            """
+            Requirements
+            1. ACTIVE and CAN_ACCESS_ADMIN
+            2. One of the three types of user ( .. | Employees | Dispatchers )
+            """
+
+            return self.is_active and (
+                self.is_superuser or self.is_staff
+                and self.groups.filter(name="Employees").exists()   # same syntax for 'Dispatchers'
+            )
     ```
