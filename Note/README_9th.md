@@ -66,3 +66,38 @@
                 and self.groups.filter(name="Employees").exists()   # same syntax for 'Dispatchers'
             )
     ```
+
+- Implementing the core stuff <small>( **```admin.py```** )</small>
+
+    ```python
+    # Part X
+    #   1. Import modules
+    #   2. Code clean-up
+
+    # Part One
+    #   1. ProductAdmin       :: MOD-NEW-two    => Limit [the-ability-to-change-slug]
+    #   2. DispatchersProductAdmin :: ADD-one   => ?
+    #   3. ProductTagAdmin    :: MOD-NEW-two    => Limit [the-ability-to-change-slug]
+    #   4. AddressAdmin       :: NEW-NEW-two    => { list_display, readonly_fields }
+    #   5. UserAdmin          :: MOD-DEL-one    => { @admin.register(models.User) }
+    #   6. OrderAdmin         :: MOD-DEL-one    => { @admin.register(models.Order) }
+    #   7. BasketAdmin        :: MOD-DEL-one    => { @admin.register(models.Basket) }
+    #   8. ..register(..)     :: MOD-DEL-three  => cuz overlapping funcs (role `Owners`)
+
+    # Part Two
+    #   1. Admin :: { CentralOfficeOrderLineInline, CentralOfficeOrderAdmin } (duh)
+    #   2. Admin :: { DispatchersOrderAdmin } (less fields available cuz its perm)
+    #   3. Helper|Extra :: { ColoredAdminSite, ReportingColoredAdminSite }
+    
+    # Part Three
+    #   1. OwnersAdminSite              # Same format with different params 
+    #   2. CentralOfficesAdminSite      # CUSTOMIZATION: [style, is_WHAT_ROLE]
+    #   3. DispatchersAdminSite         # < is_WHAT_ROLE ~ what_perm_does_it_have >
+
+    # Part Four
+    #   1. Initilize with the helpers above (for `register`)
+    #   2. Three types in total
+    #       -- main_admin               (overlaps with former `admin.site.register`)
+    #       -- central_office_admin
+    #       -- dispatchers_admin
+    ```
