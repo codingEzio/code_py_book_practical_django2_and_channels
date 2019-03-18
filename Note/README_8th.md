@@ -58,10 +58,71 @@
         REST_FRAMEWORK = {
             "DEFAULT_AUTHENTICATION_CLASSES": ( .. , .. ),    # REST
             "DEFAULT_PERMISSION_CLASSES"    : ( .. ,    ),    # REST
-            "DEFAULT_FILTER_CLASSES"        : ( .. ,    ),    # 3rd-party module
+            "DEFAULT_FILTER_CLASSES"        : ( .. ,    ),    # 3rd-party
             "DEFAULT_PAGINATION_CLASSES"    : ( .. ,    ),    # REST
             "PAGE_SIZE"                     : 100,
         }
         ```
 
+    - Writing *endpoints*
+
+        ```python
+        # It lives at the same place as 'views.py'.
+
+        # Both're API-related:
+        # || Serializer     Order, OrderLine
+        # || ViewSet        Order, OrderLine
+        ```
+
+    - Writing *urls*
+
+        ```python
+        from django.urls    import include
+        from rest_framework import routers
+        from main           import endpoints
+
+        outer = routers.DefaultRouter()
+
+        router.register(r"orderlines" , endpoints.PaidOrderLineViewSet)
+        router.register(r"orders"     , endpoints.PaidOrderViewSet    )
+
+
+        urlpatterns = [
+            .. ,
+            .. ,
+            path("api/", include(router.urls))
+        ]
+        ```
+
+    - Writing *signals*
+
+        ```python
+        # What we wanna do is that
+        # <Mark> the order as 'DONE' if all the "orderline items" were "SENT".
+
+        @receiver(post_save, sender=OrderLine)
+        def orderline_to_order_status( .. , .. , .. ):
+            
+            if ( .. )
+                logger.info( .. )
+
+                instance.order.status = Order.DONE
+                instance.order.save()
+        ```
+
+- Testing
+
+    ```bash
+    # Well, you got two ways to test 
+    #   Either from 'http://localhost:8000/api/'
+    #   Or          using the `curl` commands above (which is recommended)
+
+    # Right now, it seems that it doesn't work correctly
+    # [ ] Might be *in-adequate* sample data    ***
+    # [ ] Might be *anything-else*              **
+    # [ ] Might be *proxy* issues (socks-5)     *
     
+    # Still, I'll leave this here right now
+    #   I'll try solve this issue
+    #   if it's used by the following content.
+    ```
