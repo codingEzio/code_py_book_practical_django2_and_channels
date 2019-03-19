@@ -393,12 +393,15 @@ class ReportingColoredAdminSite(ColoredAdminSite):
                 .annotate(c=Count("id"))
         )
 
+        # These two provide data for plotting purposes,
+        # that is used by a JavaScript library (i.e. Chart.js).
         labels = [
             x["day"].strftime("%Y-%d-%d")
             for x in order_data
         ]
         values = [x["c"] for x in order_data]
 
+        # Make the templates could use the data
         context = dict(
             self.each_context(request),
             title="Orders per day",
