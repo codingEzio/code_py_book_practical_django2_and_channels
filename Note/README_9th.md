@@ -216,3 +216,20 @@
     #   2. Init the canvas board
     #   3. Plotting the data using Chart.js
     ```
+
+- Testing
+    
+    ```python
+    """ 
+    PROJECT/main/tests/
+    || test_admin.py 
+    || >> TestAdminViews 
+    || >> >> test_most_bought_products
+    """
+
+    # 1. Sample products
+    # 2. Sample purchases (`Order` & `OrderLine`)
+    # 3. New user & logged in 
+    # 4. Access the 'most-bought-products'
+    # 5. Check the amount of <products> being purchased 
+    ```
