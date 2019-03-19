@@ -159,4 +159,50 @@
     # 5. DONE!
     ```
 
-- 
+- Viewing the **most-bought** products
+
+    ```python
+    """ PROJECT/main/ :: admin.py """
+    
+    # --------- FRONT --------- 
+
+    from django import forms
+
+    class PeriodSelectForm(forms.Form):
+        ..    # choices
+        ..    # choices (Field) (In the past 30/60/90 days)
+
+
+    # --------- LOGIC --------- 
+
+    class ReportingColoredAdminSite(..):
+        
+        def get_urls(..):
+
+            ..
+            .. path("..", .. , name="most_bought_products") ..
+            ..
+
+        ...
+
+        def most_bought_products(..):
+
+            # 1. Use the form to determine the <period>
+            # 2. Filtering data by the <period>
+            # 3. Logging
+            # 4. Calculating data for the template uses
+            # 5. Assigning the values into the <context> & return
+
+        def index(..):
+
+            # In short, these were displayed at the index admin page.
+            reporting_pages = [
+                {
+                    "name": .. ,
+                    "link": .. ,
+                },
+                {
+                    "name": "Most bought products",
+                    "link": "most_bought_products/",
+                },
+            ]
