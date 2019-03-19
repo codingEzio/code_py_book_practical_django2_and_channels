@@ -18,6 +18,18 @@ from . import models
 logger = logging.getLogger(__name__)
 
 
+def make_active(self, request, queryset):
+    queryset.update(active=True)
+
+
+def make_inactive(self, request, queryset):
+    queryset.update(active=False)
+
+
+make_active.short_description = "Mark selected items as active"
+make_inactive.short_description = "Mark selected item as inactive"
+
+
 class ProductAdmin(admin.ModelAdmin):
     """
     Just in case you don't know it
@@ -30,12 +42,16 @@ class ProductAdmin(admin.ModelAdmin):
         list_editable   you could "edit" it on-the-fly (& "save" it, btn exists)
         search_fields   kinda the 'keyword' you're searching for (e.g. "By Title")
 
-    Also, about `search_fields`
+    About `search_fields`
         it could use the QuerySet as well (based on the examples),
         since we often need cross-table queries (which is reasonable!).
 
         e.g.
             search_fields = ("product__name",)
+
+    About `actions`
+        the default one is "Delete selected YOUR_MODEL_NAME_LOWERCASE"
+        we could add our own & then add those by <overriding `actions` attr>.
     """
 
     list_display = ("name", "slug", "in_stock", "price")
@@ -45,6 +61,8 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = { "slug": ("name",) }
 
     autocomplete_fields = ("tags",)
+
+    actions = [make_active, make_inactive]
 
     def get_readonly_fields(self, request, obj = None):
         """
