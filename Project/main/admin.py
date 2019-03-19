@@ -527,8 +527,11 @@ class ReportingColoredAdminSite(ColoredAdminSite):
         return super().index(request, extra_context)
 
 
-# class InvoiceMixin(admin.AdminSite):
 class InvoiceMixin:
+    """
+    It's fine for some of the attr|method cannot be resolved,
+    since this class is mainly for <being used by other classes>.
+    """
 
     def get_urls(self):
         urls = super().get_urls()
