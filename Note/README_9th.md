@@ -102,6 +102,30 @@
     #       -- dispatchers_admin
     ```
 
+- Override the *templates* <small>( *admin* )</small>
+
+    ```python
+    # booktime/settings.py :: TEMPLATES :: 'DIRS' :: MODIFY
+
+    TEMPLATEs = [
+        .. : .. 
+        .. : .. 
+
+        'DIRS': [ os.path.join(BASE_DIR, "templates") ]
+    ]
+
+
+    # booktime/templates/ (proj level apparently)
+    # || ../admin/base_site.html    duh~
+    # || ../admin/index.html        I directly copied it from the offical repo, XD
+
+    # The 1st : it's kinda an admin-style `base.html`
+    # The 2nd : $VIRTUAL_ENV/lib/py*3.?/site*/dj*/cont*/admin/templates/admin/index*
+
+    # What does these two do, exactly?
+    # || Base tmpl for ADMIN
+    # || Home page for ADMIN
+    ```
 
 - Change the former routes <small>( **```urls.py```** )</small>
 
