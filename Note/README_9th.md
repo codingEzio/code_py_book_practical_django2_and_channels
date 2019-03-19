@@ -206,3 +206,13 @@
                     "link": "most_bought_products/",
                 },
             ]
+
+
+
+    """ PROJECT/main/templates/ :: most_bought_products.html """
+
+    # In short, three steps only
+    #   1. Display the form (<period> options)
+    #   2. Init the canvas board
+    #   3. Plotting the data using Chart.js
+    ```
