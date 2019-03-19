@@ -405,7 +405,14 @@ class ReportingColoredAdminSite(ColoredAdminSite):
         return my_urls + urls
 
     def orders_per_day(self, request):
-        starting_day = datetime.now() - timedelta(days=180)
+        """
+        About the `datetime.now` issue (warning was raised)
+            Check this post
+                TITLE   RuntimeWarning: DateTimeField received a naive datetime
+                LINK    https://stackoverflow.com/a/45080605/6273859 (one of them)
+        """
+
+        starting_day = datetime.now(tz=timezone.utc) - timedelta(days=180)
         order_data = (
             models.Order.objects
                 .filter(date_added__gt=starting_day)
@@ -440,7 +447,7 @@ class ReportingColoredAdminSite(ColoredAdminSite):
 
             if form.is_valid():
                 pd_days = form.cleaned_data["period"]
-                starting_day = datetime.now() - timedelta(days=pd_days)
+                starting_day = datetime.now(tz=timezone.utc) - timedelta(days=pd_days)
 
                 data = (
                     models.OrderLine.objects
