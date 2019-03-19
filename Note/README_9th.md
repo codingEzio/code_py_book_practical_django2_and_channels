@@ -142,3 +142,21 @@
             path("dispatch-admin/", admin.dispatchers_admin.urls),
     """
     ```
+
+### Additional features for *admin* sites
+- *Reports* for all
+
+    ```python
+    # Part of the job was done by 'admin.py' (ReportingColoredAdminSite)
+    # 1. URL routes             `get_urls`   
+    # 2. Data for plotting      `orders_per_day`
+
+    """ PROJECT/main/templates/ :: orders_per_day.html """
+    # 1. Using the base templates of 'admin site' (under 'proj/templates/admin/')
+    # 2. Importing JavaScript library (Chart.js)
+    # 3. Init a canvas board & ready to draw
+    # 4. Load data & do some configuration
+    # 5. DONE!
+    ```
+
+- 
