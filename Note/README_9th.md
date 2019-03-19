@@ -123,23 +123,22 @@
     # The 2nd : $VIRTUAL_ENV/lib/py*3.?/site*/dj*/cont*/admin/templates/admin/index*
 
     # What does these two do, exactly?
-    # || Base tmpl for ADMIN
     # || Home page for ADMIN
+    # || Base tmpl for ADMIN
     ```
 
-- Change the former routes <small>( **```urls.py```** )</small>
+- Routes for different admin sites <small>( **```urls.py```** )</small>
 
     ```python
-    # main/urls.py :: MODIFY
+    # booktime/urls.py :: MODIFY
 
-    from main import admin
+    """
+    OLD     path("admin/", admin.site.urls)
 
-    path("admin/", admin.main_admin.urls),
-    path("office-admin/", admin.central_office_admin.urls),
-    path("dispatch-admin/", admin.dispatchers_admin.urls),
+    NEW     from main import admin
 
-
-    # booktime/urls.py :: DELETE
-
-    path("admin/", admin.site.urls)
+            path("admin/", admin.main_admin.urls),
+            path("office-admin/", admin.central_office_admin.urls),
+            path("dispatch-admin/", admin.dispatchers_admin.urls),
+    """
     ```
