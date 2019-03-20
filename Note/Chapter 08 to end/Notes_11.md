@@ -38,6 +38,42 @@
         pipenv install channels_redis    # a layer that uses Redis as its backing store
         ```
     
-- Pre-conf
+- Basic config
+
+    ```python
+    """ PROJECT/booktime/ :: routing.py """
+    
+    from channels.routing import ProtocolTypeRouter
+    application = ProtocolTypeRouter({})
+
+
+    """ PROJECT/booktime/ :: settings.py """
+
+    INSTALLED_APPS = [
+        "channels",     # must be put at the 1st (overriding `runserver`)
+        ..
+        ..
+    ]
+
+    # PROJ.FILENAME.CLASS_INST
+    ASGI_APPLICATION = "booktime.routing.application"
+
+    # Apparently, this one requires 
+    #   two modules ->  channels, channels_redis
+    #   app running ->  redis-server (brew install redis)
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            }
+        }
+    }
+
+
+    # Now you can start the server as "usual"
+    # || ./manage.py runserver
+    # || Boom! The console produced something fun!!
+    ```
 
     
