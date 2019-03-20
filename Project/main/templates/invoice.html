@@ -38,17 +38,21 @@
 		<div class="col">
 			<table class="table"
 			       style="width: 95%; margin: 50px 0px 50px 0px">
-				<tr>
-					<th>Product name</th>
-					<th>Price</th>
-				</tr>
+				<thead>
+					<tr>
+						<th>Product name</th>
+						<th>Price</th>
+					</tr>
+				</thead>
 
-				{% for line in order.lines.all %}
+				<tbody>
+					{% for line in order.lines.all %}
 					<tr>
 						<td>{{ line.product.name }}</td>
 						<td>{{ line.product.price }}</td>
 					</tr>
-				{% endfor %}
+					{% endfor %}
+				</tbody>
 			</table>
 		</div>
 	</div>
