@@ -70,3 +70,9 @@
 		..  <a href="{{ invoice_url }}?format=pdf"   >   ..
     -->
     ```
+
+- *tests*
+
+    ```python
+    # Skipped for now, kinda complicated to setup the test data.
+    ```
