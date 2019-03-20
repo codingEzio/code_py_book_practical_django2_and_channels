@@ -24,6 +24,7 @@ django-widget-tweaks = "*"
 djangorestframework = "*"
 weasyprint = "*"
 channels = "*"
+channels-redis = "*"
 
 [requires]
 python_version = "3.7"
