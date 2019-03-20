@@ -11,7 +11,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Normally the order isn't necessary here.
+#   BUT, it DOES make a different for the 'channels' app.
+#   It overrides the `runserver` command of standard Django.
 INSTALLED_APPS = [
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -194,4 +199,21 @@ REST_FRAMEWORK = {
         "rest_framework.pagination.PageNumberPagination",
     ),
     "PAGE_SIZE": 100,
+}
+
+# Configuration for 'Django Channels' (async-related)
+#   Some preliminary steps for this
+#   1. brew install redis && redis-server
+#   2. pipenv install channels
+#   3. pipenv install channels_redis
+#   4. 'routing.py' under PROJECT folder (same level as 'settings.py')
+ASGI_APPLICATION = "booktime.routing.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        }
+    }
 }
