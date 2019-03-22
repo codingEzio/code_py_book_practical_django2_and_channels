@@ -25,6 +25,7 @@ djangorestframework = "*"
 weasyprint = "*"
 channels = "*"
 channels-redis = "*"
+aioredis = "*"
 
 [requires]
 python_version = "3.7"
