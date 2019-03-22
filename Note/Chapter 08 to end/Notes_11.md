@@ -4,10 +4,32 @@
         - Redis
         - WebSocket
         - Django *Channels*
-- About *Django Channels*
+- Some basics
+    1. About *Django Channels*
         
-    > *Channels* allows us to write **asynchronous** code to deal with incoming requests,<br>
-    > &nbsp;&nbsp;which is helpful is case we have a naturall async interaction between C|S, e.g. A *chat session*
+        > *Channels* allows us to write **asynchronous** code to deal with  incoming requests,<br>
+        > &nbsp;&nbsp;which is helpful is case we have a naturall async     interaction between C|S, e.g. A *chat session*
+
+    2. About *Redis*
+        - It would be mainly used by *Django Channels*, including these uses
+            - **Pass messages** between different *instances* of the running Django app
+            - Do **message passing** between inst running on *different machines* OR a *single server*
+            - Do **communication between processes**
+    
+    3. About *Consumers* <small>( Term in *Channels* )</small>
+
+        - It's like *class-based views*,
+            - from my perspective, it is <u>*core stuff have been implemented*</u> & <u>*customizing through override*</u>.
+            - Two base *consumer* classes, ```SyncConsumer``` and ```AsyncConsumer```. 
+            - Other deriatives
+                - ```WebsocketConsumer``` and ```AsyncWebsocketConsumer```
+                - ```JsonWebsocketConsumer``` and ```AsyncJsonWebsocketConsumer```
+                - ```AsyncHttpConsumer```
+        - The structure of consumers is based on 
+            1. a comb of msg handlers <small>( class methods )</small> AND the ```send()``` built-in method. 
+        - Consumers can have multiple message handlers
+        - The routing of messages is based on the type value of the message.
+
     
 - Pre-read
     1. [RTD :: Asyncio](https://asyncio.readthedocs.io/en/latest/getting_started.html)
@@ -75,5 +97,3 @@
     # || ./manage.py runserver
     # || Boom! The console produced something fun!!
     ```
-
-    
