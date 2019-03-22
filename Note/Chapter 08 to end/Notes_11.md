@@ -97,3 +97,11 @@
     # || ./manage.py runserver
     # || Boom! The console produced something fun!!
     ```
+
+### References
+- I still don't really grasp the concept, here's the reading-list for myself.
+    1. [Getting Started with Django Channels – Real Python](https://realpython.com/getting-started-with-django-channels/)
+    2. [Channels Concepts — Channels 1.1.8 documentation](https://channels.readthedocs.io/en/1.x/concepts.html)
+    3. [Understanding Django Channels · Arun Ravindran](https://arunrocks.com/understanding-django-channels/)
+    4. [channels-example/show-notes.md at master · arocks/channels-example](https://github.com/arocks/channels-example/blob/master/show-notes.md)
+- 
