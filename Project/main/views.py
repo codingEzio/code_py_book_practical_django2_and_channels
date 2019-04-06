@@ -345,3 +345,11 @@ class OrderView(UserPassesTestMixin, FilterView):
         """
 
         return self.request.user.is_staff == True
+
+
+def room(request, order_id):
+    return render(
+        request,
+        "chat_room.html",
+        { "room_name_json": str(order_id) },
+    )
