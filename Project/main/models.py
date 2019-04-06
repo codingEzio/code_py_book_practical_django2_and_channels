@@ -345,6 +345,15 @@ class Order(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
+    # -------------------- Part Four ---------- ----------
+
+    last_spoken_to = models.ForeignKey(
+        User,
+        null=True,
+        related_name="cs_chats",
+        on_delete=models.SET_NULL,
+    )
+
     def __str__(self):
         return "[Order] #" + repr(self.id)
 
