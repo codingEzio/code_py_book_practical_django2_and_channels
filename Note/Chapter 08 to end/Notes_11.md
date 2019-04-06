@@ -97,6 +97,22 @@
     # || ./manage.py runserver
     # || Boom! The console produced something fun!!
     ```
+    
+    -----
+    
+### Hey
+- I still not *fully* understand this part.
+    - All the notes I've taken is a little bit separated ( *from my perspective* ).
+    - You *would* know what's going now.
+    - You *wouldn't* how to put these all together.
+- From my <small>( *poor* )</small> understanding,
+    - what we're doing is { *overriding* | *implementing* } methods
+    - either the *WebSocket* part, or the side of *Django Channels* <small>( hm ) </small>
+- Also, I'm **frustrated** when I first start to learn this concept <small>( *channels* )</small>
+    - I'm kinda *annoyed* by the official docs of [*Django Channels*](https://channels.readthedocs.io/en/latest/introduction.html) <small>( cuz I'm a newbie? XD )</small>
+    - **BUT**, now I kinda love it since I've got much more understand of it than before <small>( so.. go *check the doc*! )</small>
+    
+    -----
 
 ### References
 - I still don't really grasp the concept, here's the reading-list for myself.
