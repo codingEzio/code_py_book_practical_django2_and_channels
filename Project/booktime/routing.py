@@ -1,5 +1,8 @@
+from django.urls import re_path
+
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
+from channels.http import AsgiHandler
 
 from main import routing as appmain_routing
 
@@ -22,6 +25,8 @@ And one more thing
     which means that 
         for most projects that aren’t doing custom long-poll HTTP handling, 
         you can simply not specify a http option & leave it to work “normal” Django way.
+
+#TODO NEW EXPLANATION NEEDED
 """
 
 application = ProtocolTypeRouter(
@@ -30,6 +35,12 @@ application = ProtocolTypeRouter(
             URLRouter(
                 appmain_routing.websocket_urlpatterns
             )
+        ),
+        "http": URLRouter(
+            appmain_routing.http_urlpatterns \
+            + [
+                re_path(r"", AsgiHandler)
+            ]
         )
     }
 )
