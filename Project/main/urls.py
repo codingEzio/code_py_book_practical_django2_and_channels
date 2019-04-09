@@ -49,10 +49,10 @@ urlpatterns = [
          auth_views.LoginView.as_view(template_name="login.html",
                                       form_class=forms.AuthenticationForm), name="login"),
 
-    path("customer-service/<int:order_id>/",
-         views.room, name="cs_chat"),
     path("customer-service/",
          TemplateView.as_view(template_name="customer_service.html"), name="cs_main"),
+    path("customer-service/<int:order_id>/",
+         views.room, name="cs_chat"),
 
     path("contact-us/",
          views.ContactUsView.as_view(), name="contact_us"),
