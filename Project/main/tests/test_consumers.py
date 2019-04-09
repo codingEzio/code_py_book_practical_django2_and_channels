@@ -152,6 +152,8 @@ class TestConsumers(TestCase):
             )
             order = factories.OrderFactory()
 
+            return user, order
+
         async def test_body():
             user, order = await database_sync_to_async(init_db)()
 
