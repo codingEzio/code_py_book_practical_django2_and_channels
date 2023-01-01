@@ -14,9 +14,9 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
     "jest": "^24.4.0",
-    "webpack": "^4.29.6",
+    "webpack": "^5.75.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "react": "^16.8.4",
